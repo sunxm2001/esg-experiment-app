@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ESG Experiment - Narrative Spillover & Investor Behavior</title>
+    <link rel="stylesheet" href="/styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script>
+      // Error handling
+      window.addEventListener('error', function(event) {
+        console.error('Global error:', event.error);
+        console.error('Error in:', event.filename, 'at line', event.lineno, 'col', event.colno);
+        document.getElementById('root').innerHTML = `
+          <div style="padding: 20px; font-family: sans-serif;">
+            <h2 style="color: #d32f2f;">JavaScript Error</h2>
+            <p>Error: ${event.error?.message || 'Unknown error'}</p>
+            <p>Check browser console (F12) for details.</p>
+            <button onclick="location.reload()">Reload Page</button>
+          </div>
+        `;
+      });
+
+      window.addEventListener('unhandledrejection', function(event) {
+        console.error('Unhandled promise rejection:', event.reason);
+      });
+
+      // Debug script
+      console.log('HTML loaded');
+      document.addEventListener('DOMContentLoaded', () => {
+        console.log('DOMContentLoaded fired');
+      });
+      window.addEventListener('load', () => {
+        console.log('Window loaded');
+      });
+    </script>
+    <script type="module" src="./src/index.js"></script>
+</head>
+<body>
+    <div id="root">
+        <div class="loading-container">
+            <div class="loading-spinner"></div>
+            <p>Loading ESG Experiment App...</p>
+        </div>
+    </div>
+</body>
+</html>

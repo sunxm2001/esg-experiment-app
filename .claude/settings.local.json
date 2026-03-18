@@ -1,0 +1,22 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(npm init:*)",
+      "Bash(npm --version)",
+      "Bash(chmod +x /Users/sunxuemeng/Desktop/cc-test/start-experiment.sh)",
+      "Bash(lsof -ti:5000,3000)",
+      "Bash(ps -p 673 -o pid,command)",
+      "Bash(psql -l)",
+      "Bash(brew services:*)",
+      "Bash(psql -d esg_experiment -c \"SELECT current_user;\")",
+      "Bash(psql -U sunxuemeng -d esg_experiment -c \"SELECT current_user;\")",
+      "Bash(createuser --superuser sunxuemeng)",
+      "Bash(node -c src/index.js)",
+      "Bash(ln -s ../src .)",
+      "Bash(curl -s http://localhost:5001/api/health)",
+      "Bash(/opt/homebrew/opt/postgresql@18/bin/psql -U sunxuemeng -d esg_experiment -f database/schema.sql)",
+      "Bash(npm run:*)",
+      "Bash(python3 -m json.tool)"
+    ]
+  }
+}

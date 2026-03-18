@@ -1,0 +1,36 @@
+{
+  "name": "esg-experiment-app",
+  "version": "1.0.0",
+  "description": "ESG光环效应实验应用 - 研究ESG新闻叙事对零售投资者行为的影响",
+  "main": "backend/src/server.js",
+  "scripts": {
+    "start": "cd backend && npm start",
+    "dev": "cd backend && npm run dev",
+    "install-all": "cd backend && npm install && cd ../frontend && npm install",
+    "seed": "cd backend && npm run seed",
+    "setup-db": "createdb esg_experiment && psql -U $USER -d esg_experiment -f database/schema.sql",
+    "health": "curl http://localhost:5001/api/health || echo 'Server not running'",
+    "test": "echo 'No tests defined'"
+  },
+  "keywords": [
+    "esg",
+    "behavioral-finance",
+    "experiment",
+    "nodejs",
+    "react",
+    "postgresql"
+  ],
+  "author": "",
+  "license": "MIT",
+  "engines": {
+    "node": ">=16.0.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/yourusername/esg-experiment-app.git"
+  },
+  "bugs": {
+    "url": "https://github.com/yourusername/esg-experiment-app/issues"
+  },
+  "homepage": "https://github.com/yourusername/esg-experiment-app#readme"
+}

@@ -1,0 +1,23 @@
+{
+  "name": "esg-experiment-frontend",
+  "version": "1.0.0",
+  "description": "Frontend for ESG experiment app",
+  "main": "src/index.js",
+  "scripts": {
+    "start": "npx serve -s . -p 3000",
+    "build": "echo 'Build process would go here'",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": ["esg", "experiment", "react", "behavioral finance"],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "react-router-dom": "^6.20.0",
+    "axios": "^1.6.2"
+  },
+  "devDependencies": {
+    "serve": "^14.2.0"
+  }
+}
