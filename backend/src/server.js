@@ -1,6 +1,7 @@
 const express = require('express');
 const cors = require('cors');
 const path = require('path');
+const fs = require('fs');
 require('dotenv').config();
 
 const app = express();
@@ -129,7 +130,10 @@ app.get('/api/health/detailed', async (req, res) => {
 });
 
 // Serve frontend static files from frontend/public directory
-const frontendPublicPath = path.join(__dirname, '../../frontend/public');
+const frontendPublicPath = path.resolve(__dirname, '../../frontend/public');
+console.log(`Static files path: ${frontendPublicPath}`);
+console.log(`Directory exists: ${fs.existsSync(frontendPublicPath)}`);
+
 app.use(express.static(frontendPublicPath, {
   maxAge: process.env.NODE_ENV === 'production' ? '1d' : '0', // Cache in production
   etag: true,
@@ -139,16 +143,26 @@ app.use(express.static(frontendPublicPath, {
     if (filePath.endsWith('.html')) {
       res.setHeader('Cache-Control', 'no-cache, no-store, must-revalidate');
     }
-  }
+  },
+  fallthrough: true  // Allow requests to fall through if file not found
 }));
 
 // Also serve src directory for JavaScript modules
-const frontendSrcPath = path.join(__dirname, '../../frontend/src');
+const frontendSrcPath = path.resolve(__dirname, '../../frontend/src');
+console.log(`JavaScript modules path: ${frontendSrcPath}`);
+console.log(`Directory exists: ${fs.existsSync(frontendSrcPath)}`);
+
 app.use('/src', express.static(frontendSrcPath, {
   maxAge: process.env.NODE_ENV === 'production' ? '1d' : '0',
   etag: true,
-  lastModified: true
+  lastModified: true,
+  fallthrough: true
 }));
+
+// Handle favicon.ico requests (return 204 No Content if no favicon)
+app.get('/favicon.ico', (req, res) => {
+  res.status(204).end();
+});
 
 // Import routes
 const userRoutes = require('../routes/userRoutes');
@@ -177,7 +191,34 @@ app.get('*', (req, res) => {
   }
 
   // Serve index.html for all other routes
-  res.sendFile(path.join(frontendPath, 'public/index.html'));
+  const indexPath = path.join(frontendPublicPath, 'index.html');
+
+  // Check if index.html exists before sending
+  if (!fs.existsSync(indexPath)) {
+    console.error(`index.html not found at: ${indexPath}`);
+    return res.status(500).json({
+      error: 'Frontend application not properly deployed',
+      message: `index.html not found at ${indexPath}`,
+      timestamp: new Date().toISOString()
+    });
+  }
+
+  // Send file with error handling
+  res.sendFile(indexPath, (err) => {
+    if (err) {
+      console.error(`Error sending index.html: ${err.message}`, {
+        path: indexPath,
+        error: err
+      });
+      if (!res.headersSent) {
+        res.status(500).json({
+          error: 'Failed to serve frontend application',
+          message: err.message,
+          timestamp: new Date().toISOString()
+        });
+      }
+    }
+  });
 });
 
 // Enhanced error handling middleware
