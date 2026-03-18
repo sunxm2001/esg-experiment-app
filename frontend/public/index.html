@@ -34,6 +34,30 @@
       window.addEventListener('load', () => {
         console.log('Window loaded');
       });
+
+      // Module loading timeout detection
+      setTimeout(() => {
+        const root = document.getElementById('root');
+        if (root && root.innerHTML.includes('Loading ESG Experiment App')) {
+          console.warn('App still loading after 10 seconds - possible module loading failure');
+          root.innerHTML = `
+            <div style="padding: 40px; font-family: sans-serif; text-align: center;">
+              <h2 style="color: #d32f2f;">Application Loading Failed</h2>
+              <p>The ESG Experiment App failed to load after 10 seconds.</p>
+              <p>Possible causes:</p>
+              <ul style="text-align: left; max-width: 500px; margin: 20px auto;">
+                <li>JavaScript modules failed to load</li>
+                <li>Check browser console for errors (F12)</li>
+                <li>Ensure JavaScript is enabled in your browser</li>
+                <li>Try clearing browser cache and reloading</li>
+              </ul>
+              <button onclick="location.reload()" style="padding: 10px 20px; background: #2E7D32; color: white; border: none; border-radius: 4px; cursor: pointer;">
+                Reload Page
+              </button>
+            </div>
+          `;
+        }
+      }, 10000);
     </script>
     <script type="module" src="./src/index.js"></script>
 </head>
@@ -42,6 +66,7 @@
         <div class="loading-container">
             <div class="loading-spinner"></div>
             <p>Loading ESG Experiment App...</p>
+            <p style="font-size: 14px; color: #666; margin-top: 10px;">If this takes too long, press F12 to open Developer Tools and check for errors.</p>
         </div>
     </div>
 </body>

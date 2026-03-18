@@ -1,10 +1,13 @@
 #!/bin/bash
 
 # ESG Experiment App Starter Script
-# This script helps start both backend and frontend servers
+# After optimization: Express serves both API and frontend
+# This script starts the integrated application
 
 echo "========================================="
 echo "ESG Experiment Application Starter"
+echo "Optimized for 30 concurrent users"
+echo "Integrated frontend + backend"
 echo "========================================="
 echo ""
 
@@ -24,10 +27,10 @@ else
 fi
 
 echo "Select an option:"
-echo "1. Start Backend Server only (Node.js required)"
-echo "2. Start Frontend Server only"
-echo "3. Start Both (requires Node.js)"
-echo "4. Install dependencies and start both"
+echo "1. Start Backend API Server only (Node.js required)"
+echo "2. Start Frontend Server only (Legacy Mode)"
+echo "3. Start Integrated Application (Recommended)"
+echo "4. Install dependencies"
 echo "5. Exit"
 echo ""
 
@@ -47,7 +50,11 @@ case $choice in
         fi
         ;;
     2)
-        echo "Starting Frontend Server..."
+        echo "Starting Frontend Server (Legacy Mode)..."
+        echo "Note: After optimization, frontend is now served by Express backend."
+        echo "For integrated app, choose option 3 instead."
+        echo ""
+
         cd frontend/public
 
         echo "Frontend available at:"
@@ -67,13 +74,39 @@ case $choice in
         fi
         ;;
     3)
-        echo "Starting Both Servers..."
-        echo "Note: Run in separate terminals for best results"
+        echo "Starting Integrated Application Server..."
+        echo "Note: After optimization, Express serves both API and frontend"
         echo ""
-        echo "For Backend: cd backend && npm run dev"
-        echo "For Frontend: cd frontend/public && python3 -m http.server 3000"
-        echo ""
-        echo "Or open frontend/public/index.html directly in browser"
+
+        cd backend
+
+        if command -v node &> /dev/null; then
+            if [ -f "node_modules/.bin/nodemon" ]; then
+                echo "🚀 Starting integrated server with nodemon..."
+                echo "App will be available at: http://localhost:5001"
+                echo "API Health: http://localhost:5001/api/health"
+                echo ""
+                echo "Press Ctrl+C to stop"
+                echo ""
+                npm run dev
+            elif [ -f "node_modules/.bin/node" ]; then
+                echo "🚀 Starting integrated server..."
+                echo "App will be available at: http://localhost:5001"
+                echo "API Health: http://localhost:5001/api/health"
+                echo ""
+                echo "Press Ctrl+C to stop"
+                echo ""
+                node src/server.js
+            else
+                echo "⚠️  Backend dependencies not installed."
+                echo "Choose option 4 to install dependencies first."
+                echo ""
+                echo "After installation, run: cd backend && npm run dev"
+            fi
+        else
+            echo "⚠️  Node.js is not installed"
+            echo "Please install Node.js from https://nodejs.org/"
+        fi
         ;;
     4)
         echo "Installing dependencies..."
@@ -82,15 +115,17 @@ case $choice in
             cd backend && npm install
             cd ..
 
-            echo "Installing frontend dependencies..."
+            echo "Installing frontend dependencies (for development)..."
             cd frontend && npm install
             cd ..
 
             echo "✅ Dependencies installed"
             echo ""
-            echo "To start:"
-            echo "1. Terminal 1: cd backend && npm run dev"
-            echo "2. Terminal 2: cd frontend/public && python3 -m http.server 3000"
+            echo "To start integrated application:"
+            echo "cd backend && npm run dev"
+            echo ""
+            echo "App will be available at: http://localhost:5001"
+            echo "API endpoints at: http://localhost:5001/api/*"
         else
             echo "⚠️  Node.js not installed. Cannot install dependencies."
             echo "Please install Node.js first."

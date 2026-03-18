@@ -15,13 +15,23 @@ export class ApiService {
         };
 
         // Log configuration in development
-        if (process.env.NODE_ENV === 'development' || isLocalDevelopment) {
+        if (isLocalDevelopment) {
             console.log('API Service configured:', {
                 baseURL: this.baseURL,
                 currentHost: window.location.host,
                 isLocalDevelopment
             });
         }
+
+        // Always log for debugging
+        console.log('API Service initialized:', {
+            baseURL: this.baseURL,
+            port: window.location.port,
+            hostname: window.location.hostname,
+            host: window.location.host,
+            protocol: window.location.protocol,
+            origin: window.location.origin
+        });
     }
 
     /**

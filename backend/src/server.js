@@ -10,6 +10,13 @@ const port = process.env.PORT || 5000;
 const allowedOrigins = process.env.ALLOWED_ORIGINS ? process.env.ALLOWED_ORIGINS.split(',') : [];
 app.use(cors({
   origin: (origin, callback) => {
+    // In development, allow all origins for easier testing
+    if (process.env.NODE_ENV === 'development') {
+      callback(null, true);
+      return;
+    }
+
+    // In production, only allow specified origins
     if (!origin || allowedOrigins.indexOf(origin) !== -1) {
       callback(null, true);
     } else {
@@ -85,7 +92,7 @@ app.get('/api/health', (req, res) => {
 // Detailed health check with system status
 app.get('/api/health/detailed', async (req, res) => {
   try {
-    const db = require('../../config/database');
+    const db = require('../config/database');
     const poolStats = db.getPoolStats ? db.getPoolStats() : {};
 
     // Check database connection
@@ -122,8 +129,8 @@ app.get('/api/health/detailed', async (req, res) => {
 });
 
 // Serve frontend static files from frontend/public directory
-const frontendPath = path.join(__dirname, '../../frontend/public');
-app.use(express.static(frontendPath, {
+const frontendPublicPath = path.join(__dirname, '../../frontend/public');
+app.use(express.static(frontendPublicPath, {
   maxAge: process.env.NODE_ENV === 'production' ? '1d' : '0', // Cache in production
   etag: true,
   lastModified: true,
@@ -133,6 +140,14 @@ app.use(express.static(frontendPath, {
       res.setHeader('Cache-Control', 'no-cache, no-store, must-revalidate');
     }
   }
+}));
+
+// Also serve src directory for JavaScript modules
+const frontendSrcPath = path.join(__dirname, '../../frontend/src');
+app.use('/src', express.static(frontendSrcPath, {
+  maxAge: process.env.NODE_ENV === 'production' ? '1d' : '0',
+  etag: true,
+  lastModified: true
 }));
 
 // Import routes
@@ -162,7 +177,7 @@ app.get('*', (req, res) => {
   }
 
   // Serve index.html for all other routes
-  res.sendFile(path.join(frontendPath, 'index.html'));
+  res.sendFile(path.join(frontendPath, 'public/index.html'));
 });
 
 // Enhanced error handling middleware
@@ -248,7 +263,7 @@ const shutdown = (signal) => {
 
     // Close database pool if available
     try {
-      const db = require('../../config/database');
+      const db = require('../config/database');
       if (db.pool && typeof db.pool.end === 'function') {
         db.pool.end(() => {
           console.log('Database pool closed.');
