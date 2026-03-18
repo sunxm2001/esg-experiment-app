@@ -55,14 +55,7 @@ async function initializeDatabase() {
   console.log(`${LOG_PREFIX} Cleaned SQL (${cleanSchemaSQL.length} characters)`);
 
   // Configure database connection
-  const config = {
-    // Default to local development settings
-    host: process.env.DB_HOST || 'localhost',
-    port: process.env.DB_PORT || 5432,
-    database: process.env.DB_NAME || 'esg_experiment',
-    user: process.env.DB_USER || 'postgres',
-    password: process.env.DB_PASSWORD || 'postgres',
-  };
+  const config = {};
 
   // Override with DATABASE_URL if provided (cloud platforms)
   if (process.env.DATABASE_URL) {
@@ -77,9 +70,34 @@ async function initializeDatabase() {
     }
   } else {
     console.log(`${LOG_PREFIX} Using individual database environment variables`);
+
+    // Use current system username as default if DB_USER not set
+    const defaultUser = process.env.USER || process.env.USERNAME || 'postgres';
+
+    config.host = process.env.DB_HOST || 'localhost';
+    config.port = parseInt(process.env.DB_PORT || '5432', 10);
+    config.database = process.env.DB_NAME || 'esg_experiment';
+    config.user = process.env.DB_USER || defaultUser;
+
+    // Only include password if it's set (PostgreSQL allows empty password)
+    if (process.env.DB_PASSWORD !== undefined) {
+      config.password = process.env.DB_PASSWORD;
+    }
   }
 
-  console.log(`${LOG_PREFIX} Connecting to database: ${config.database || config.connectionString?.split('@')[1] || 'unknown'}`);
+  console.log(`${LOG_PREFIX} Database configuration:`);
+  if (config.connectionString) {
+    // Mask password in connection string for security
+    const maskedConnectionString = config.connectionString.replace(/:[^:@]+@/, ':****@');
+    console.log(`  connectionString: ${maskedConnectionString}`);
+  } else {
+    console.log(`  host: ${config.host}`);
+    console.log(`  port: ${config.port}`);
+    console.log(`  database: ${config.database}`);
+    console.log(`  user: ${config.user}`);
+    console.log(`  password: ${config.password ? '****' : '(not set)'}`);
+    console.log(`  ssl: ${config.ssl ? JSON.stringify(config.ssl) : 'not configured'}`);
+  }
 
   // Create database client
   const client = new Client(config);
@@ -142,15 +160,28 @@ async function initializeDatabase() {
   } catch (connectionError) {
     console.error(`${LOG_PREFIX} ERROR: Failed to connect to database:`, connectionError.message);
     console.error(`${LOG_PREFIX} Check your DATABASE_URL or database credentials.`);
-    console.error(`${LOG_PREFIX} Current configuration:`, {
-      host: config.host,
-      port: config.port,
-      database: config.database,
-      user: config.user,
-      hasPassword: !!config.password,
-      hasConnectionString: !!config.connectionString,
-      ssl: config.ssl
-    });
+
+    if (config.connectionString) {
+      // Mask password in connection string for security
+      const maskedConnectionString = config.connectionString.replace(/:[^:@]+@/, ':****@');
+      console.error(`${LOG_PREFIX} Current configuration: connectionString=${maskedConnectionString}`);
+    } else {
+      console.error(`${LOG_PREFIX} Current configuration:`, {
+        host: config.host,
+        port: config.port,
+        database: config.database,
+        user: config.user,
+        password: config.password ? '****' : '(not set)',
+        ssl: config.ssl
+      });
+    }
+
+    console.error(`${LOG_PREFIX} Troubleshooting tips:`);
+    console.error(`  1. For Railway: Ensure DATABASE_URL is set in environment variables`);
+    console.error(`  2. For local development: Ensure PostgreSQL is running (brew services start postgresql)`);
+    console.error(`  3. Check if database exists: createdb ${config.database || 'esg_experiment'}`);
+    console.error(`  4. Verify user permissions: psql -U ${config.user} -d ${config.database || 'esg_experiment'}`);
+
     process.exit(1);
   } finally {
     // Close connection
