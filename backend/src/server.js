@@ -7,23 +7,10 @@ require('dotenv').config();
 const app = express();
 const port = process.env.PORT || 5000;
 
-// CORS configuration
-const allowedOrigins = process.env.ALLOWED_ORIGINS ? process.env.ALLOWED_ORIGINS.split(',') : [];
+// CORS configuration - Allow all origins for now to fix static file loading
+// In production, you may want to restrict this to specific domains
 app.use(cors({
-  origin: (origin, callback) => {
-    // In development, allow all origins for easier testing
-    if (process.env.NODE_ENV === 'development') {
-      callback(null, true);
-      return;
-    }
-
-    // In production, only allow specified origins
-    if (!origin || allowedOrigins.indexOf(origin) !== -1) {
-      callback(null, true);
-    } else {
-      callback(new Error('Not allowed by CORS'));
-    }
-  },
+  origin: true,  // Allow all origins
   credentials: true
 }));
 
