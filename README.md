@@ -279,6 +279,75 @@ curl http://localhost:5001/api/news/stats/counts
 ✅ **错误处理**: 增强错误分类，优雅关闭，健康检查
 ✅ **部署支持**: 零成本云部署配置，支持Railway, Supabase, Vercel等
 
+## 🚀 GitHub上传与公网部署指南
+
+### 1. 上传代码到GitHub
+
+```bash
+# 1. 在GitHub上创建新仓库 (如: esg-experiment-app)
+# 2. 添加远程仓库并推送代码
+git remote add origin https://github.com/你的用户名/仓库名.git
+git branch -M main
+git push -u origin main
+
+# 3. 验证推送成功
+git status
+```
+
+### 2. 选择部署方案（推荐）
+
+#### 方案A：Railway全栈部署（最简单）
+1. 访问 [railway.app](https://railway.app) 注册账号
+2. 点击"New Project" → "Deploy from GitHub repo"
+3. 选择你的GitHub仓库
+4. Railway会自动：
+   - 检测Node.js应用
+   - 创建PostgreSQL数据库
+   - 设置环境变量
+   - 部署应用
+5. 获取应用URL：`https://你的应用名.railway.app`
+
+#### 方案B：Supabase + Vercel（高性能）
+1. **数据库**: [supabase.com](https://supabase.com) 创建项目，导入 `database/schema.sql`
+2. **后端**: Railway或Render部署后端，设置 `DATABASE_URL` 环境变量
+3. **前端**: [vercel.com](https://vercel.com) 部署前端，选择 `frontend/public` 目录
+
+### 3. 环境变量配置（生产环境）
+
+在部署平台设置以下环境变量：
+
+```env
+DATABASE_URL=postgresql://用户名:密码@主机:5432/数据库名
+NODE_ENV=production
+ALLOWED_ORIGINS=https://你的前端域名
+```
+
+### 4. 数据初始化
+
+```bash
+# 在部署平台的终端中运行：
+cd backend
+npm run seed  # 插入新闻数据
+```
+
+### 5. 测试部署
+
+1. **健康检查**: `https://你的域名/api/health`
+2. **前端应用**: `https://你的域名`
+3. **数据导出**: `https://你的域名/api/export/csv`
+
+### 6. 分享给受试者
+
+- **实验链接**: `https://你的域名`
+- **预计容量**: 30名用户同时使用
+- **数据安全**: 所有数据存储在云数据库，可通过API导出
+
+### 7. 监控和维护
+
+- **日志**: 在部署平台查看应用日志
+- **数据库**: 使用Supabase或Railway的数据库管理界面
+- **备份**: 云平台自动备份，也可手动导出：`/api/export/csv`
+
 ## 下一步工作 (可选增强)
 
 ### 功能增强
