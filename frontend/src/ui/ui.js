@@ -6,6 +6,7 @@ import { PosttestView } from './views/posttest.js';
 import { CompletionView } from './views/completion.js';
 import { CompletedView } from './views/completed.js';
 import { ErrorView } from './views/error.js';
+import { languageService } from '../services/language.js';
 
 /**
  * Main UI manager
@@ -41,6 +42,18 @@ export class UI {
      * Initialize UI
      */
     init() {
+        // Initialize language service
+        languageService.init();
+
+        // Set up language change listener
+        document.addEventListener('languagechange', () => {
+            this.renderHeader();
+            // Re-render current view with new language
+            if (this.currentView && this.currentView.refresh) {
+                this.currentView.refresh();
+            }
+        });
+
         this.renderLayout();
         this.setupEventListeners();
     }
@@ -104,25 +117,31 @@ export class UI {
                         <i class="fas fa-chart-line"></i>
                     </div>
                     <div class="logo-text">
-                        <h1>ESG Experiment</h1>
-                        <p>Narrative Spillover & Investor Behavior</p>
+                        <h1>${languageService.t('app.name')}</h1>
+                        <p>${languageService.t('app.subtitle')}</p>
                     </div>
                 </div>
-                <div class="user-info">
+                <div class="header-right">
+                    ${languageService.getLanguageSelectorHTML()}
                     ${user ? `
                         <div class="progress-container">
                             <div class="progress-bar">
                                 <div class="progress-fill" style="width: ${progress}%"></div>
                             </div>
                             <div class="progress-labels">
-                                <span class="progress-current">${Math.round(progress)}% Complete</span>
-                                <span>Experiment Progress</span>
+                                <span class="progress-current">${Math.round(progress)}% ${languageService.t('header.complete')}</span>
+                                <span>${languageService.t('header.progress')}</span>
                             </div>
                         </div>
                     ` : ''}
                 </div>
             </div>
         `;
+
+        // Initialize language selector events
+        setTimeout(() => {
+            languageService.initLanguageSelector();
+        }, 0);
     }
 
     /**
