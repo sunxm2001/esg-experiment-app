@@ -122,7 +122,7 @@ export class UI {
                     </div>
                 </div>
                 <div class="header-right">
-                    ${languageService.getLanguageSelectorHTML()}
+                    ${languageService.getLanguageSelectorHTML('header-')}
                     ${user ? `
                         <div class="progress-container">
                             <div class="progress-bar">
@@ -140,7 +140,7 @@ export class UI {
 
         // Initialize language selector events
         setTimeout(() => {
-            languageService.initLanguageSelector();
+            languageService.initLanguageSelector('header-');
         }, 0);
     }
 

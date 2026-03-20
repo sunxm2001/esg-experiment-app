@@ -238,19 +238,22 @@ export class LanguageService {
 
     /**
      * Get language selector HTML
+     * @param {string} prefix - Optional prefix for unique IDs (e.g., 'welcome-', 'header-')
      * @returns {string} HTML for language selector
      */
-    getLanguageSelectorHTML() {
+    getLanguageSelectorHTML(prefix = '') {
         const languages = this.getAvailableLanguages();
         const currentLang = this.getCurrentLanguage();
+        const toggleId = `${prefix}language-toggle`;
+        const dropdownId = `${prefix}language-dropdown`;
 
         return `
             <div class="language-selector">
-                <button class="btn btn-secondary btn-sm language-toggle" id="language-toggle">
+                <button class="btn btn-secondary btn-sm language-toggle" id="${toggleId}">
                     <i class="fas fa-globe"></i>
                     ${this.t('language.select')}
                 </button>
-                <div class="language-dropdown" id="language-dropdown" style="display: none;">
+                <div class="language-dropdown" id="${dropdownId}" style="display: none;">
                     ${languages.map(lang => `
                         <button class="language-option ${lang.code === currentLang ? 'active' : ''}"
                                 data-lang="${lang.code}">
@@ -264,10 +267,13 @@ export class LanguageService {
 
     /**
      * Initialize language selector events
+     * @param {string} prefix - Optional prefix for unique IDs (e.g., 'welcome-', 'header-')
      */
-    initLanguageSelector() {
-        const toggle = document.getElementById('language-toggle');
-        const dropdown = document.getElementById('language-dropdown');
+    initLanguageSelector(prefix = '') {
+        const toggleId = `${prefix}language-toggle`;
+        const dropdownId = `${prefix}language-dropdown`;
+        const toggle = document.getElementById(toggleId);
+        const dropdown = document.getElementById(dropdownId);
 
         if (toggle && dropdown) {
             // Toggle dropdown
@@ -276,10 +282,11 @@ export class LanguageService {
                 dropdown.style.display = dropdown.style.display === 'none' ? 'block' : 'none';
             });
 
-            // Language selection
-            document.querySelectorAll('.language-option').forEach(option => {
-                option.addEventListener('click', (e) => {
-                    const lang = e.target.getAttribute('data-lang');
+            // Language selection - use event delegation for dynamic elements
+            dropdown.addEventListener('click', (e) => {
+                const option = e.target.closest('.language-option');
+                if (option) {
+                    const lang = option.getAttribute('data-lang');
                     this.setLanguage(lang);
                     dropdown.style.display = 'none';
 
@@ -287,12 +294,14 @@ export class LanguageService {
                     document.dispatchEvent(new CustomEvent('languagechange', {
                         detail: { language: lang }
                     }));
-                });
+                }
             });
 
             // Close dropdown when clicking outside
-            document.addEventListener('click', () => {
-                dropdown.style.display = 'none';
+            document.addEventListener('click', (e) => {
+                if (!dropdown.contains(e.target) && e.target !== toggle) {
+                    dropdown.style.display = 'none';
+                }
             });
         }
     }

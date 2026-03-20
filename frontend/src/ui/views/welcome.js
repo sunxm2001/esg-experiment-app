@@ -22,6 +22,16 @@ export class WelcomeView {
                     </div>
 
                     <div class="text-center" style="margin: 40px 0;">
+                        <!-- Language Selector for Welcome Page -->
+                        <div class="welcome-language-selector" style="margin-bottom: 30px;">
+                            <div style="font-size: 16px; color: var(--text-secondary); margin-bottom: 10px;">
+                                ${languageService.t('language.select')}:
+                            </div>
+                            <div style="display: inline-block;">
+                                ${languageService.getLanguageSelectorHTML('welcome-')}
+                            </div>
+                        </div>
+
                         <i class="fas fa-chart-line" style="font-size: 64px; color: var(--primary-color); margin-bottom: 20px;"></i>
                         <h2 style="margin-bottom: 16px;">${languageService.t('welcome.title')}</h2>
                         <p style="color: var(--text-secondary); max-width: 600px; margin: 0 auto 24px;">
@@ -141,6 +151,11 @@ export class WelcomeView {
             this.app.currentStage = 'registration';
             this.ui.app.router.navigate('registration');
         });
+
+        // Initialize welcome page language selector
+        setTimeout(() => {
+            languageService.initLanguageSelector('welcome-');
+        }, 0);
     }
 
     /**
