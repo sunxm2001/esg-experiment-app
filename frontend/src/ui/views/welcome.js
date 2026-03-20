@@ -23,12 +23,15 @@ export class WelcomeView {
 
                     <div class="text-center" style="margin: 40px 0;">
                         <!-- Language Selector for Welcome Page -->
-                        <div class="welcome-language-selector" style="margin-bottom: 30px;">
-                            <div style="font-size: 16px; color: var(--text-secondary); margin-bottom: 10px;">
-                                ${languageService.t('language.select')}:
+                        <div class="welcome-language-selector" style="margin-bottom: 30px; border: 3px solid #ff0000; padding: 15px; border-radius: 8px; background-color: #fff8f8;">
+                            <div style="font-size: 16px; color: var(--text-secondary); margin-bottom: 10px; font-weight: bold;">
+                                🔤 ${languageService.t('language.select')}:
                             </div>
                             <div style="display: inline-block;">
                                 ${languageService.getLanguageSelectorHTML('welcome-')}
+                            </div>
+                            <div style="font-size: 12px; color: #666; margin-top: 8px;">
+                                Please select your preferred language before starting
                             </div>
                         </div>
 
