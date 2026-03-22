@@ -4,7 +4,7 @@
   "description": "Frontend for ESG experiment app",
   "main": "src/index.js",
   "scripts": {
-    "start": "npx serve -s . -p 3000",
+    "start": "npx serve -s public -p 3000",
     "build": "echo 'Build process would go here'",
     "test": "echo \"Error: no test specified\" && exit 1"
   },

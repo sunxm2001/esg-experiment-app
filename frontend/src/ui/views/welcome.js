@@ -13,6 +13,8 @@ export class WelcomeView {
      * Render welcome view
      */
     async render() {
+        console.log('WelcomeView: rendering, language selector HTML:', languageService.getLanguageSelectorHTML('welcome-'));
+        console.log('WelcomeView: current language:', languageService.getCurrentLanguage());
         return `
             <div class="welcome-view">
                 <div class="card">
@@ -157,6 +159,7 @@ export class WelcomeView {
 
         // Initialize welcome page language selector
         setTimeout(() => {
+            console.log('WelcomeView: Initializing language selector with prefix welcome-');
             languageService.initLanguageSelector('welcome-');
         }, 0);
     }

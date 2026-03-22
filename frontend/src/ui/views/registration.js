@@ -1,6 +1,8 @@
 /**
  * Registration view (pre-experiment data collection)
  */
+import { languageService } from '../../services/language.js';
+
 export class RegistrationView {
     constructor(ui) {
         this.ui = ui;
@@ -24,75 +26,75 @@ export class RegistrationView {
             <div class="registration-view">
                 <div class="card">
                     <div class="card-header">
-                        <h2 class="card-title">Registration & Pre-Experiment Assessment</h2>
-                        <p class="card-subtitle">Please provide your demographic information and complete the initial assessments.</p>
+                        <h2 class="card-title">${languageService.t('registration.title')}</h2>
+                        <p class="card-subtitle">${languageService.t('registration.subtitle')}</p>
                     </div>
 
                     <form id="registration-form">
                         <div class="form-section">
-                            <h3 style="margin-bottom: 20px; color: var(--text-primary);">Demographic Information</h3>
+                            <h3 style="margin-bottom: 20px; color: var(--text-primary);">${languageService.t('registration.demographic_info')}</h3>
 
                             <div class="form-group">
-                                <label class="form-label required" for="email">Email Address</label>
+                                <label class="form-label required" for="email">${languageService.t('registration.email')}</label>
                                 <input type="email" id="email" class="form-input" required
                                        placeholder="your.email@example.com"
                                        value="${this.formData.email}">
-                                <div class="form-help">Used for payment and communication purposes only.</div>
+                                <div class="form-help">${languageService.t('registration.email_help')}</div>
                             </div>
 
                             <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 24px;">
                                 <div class="form-group">
-                                    <label class="form-label required" for="age">Age</label>
+                                    <label class="form-label required" for="age">${languageService.t('registration.age')}</label>
                                     <input type="number" id="age" class="form-input" required
                                            min="18" max="100" value="${this.formData.age}">
                                 </div>
 
                                 <div class="form-group">
-                                    <label class="form-label required" for="gender">Gender</label>
+                                    <label class="form-label required" for="gender">${languageService.t('registration.gender')}</label>
                                     <select id="gender" class="form-select" required>
-                                        <option value="">Select gender</option>
-                                        <option value="male" ${this.formData.gender === 'male' ? 'selected' : ''}>Male</option>
-                                        <option value="female" ${this.formData.gender === 'female' ? 'selected' : ''}>Female</option>
-                                        <option value="non-binary" ${this.formData.gender === 'non-binary' ? 'selected' : ''}>Non-binary</option>
-                                        <option value="prefer-not-to-say" ${this.formData.gender === 'prefer-not-to-say' ? 'selected' : ''}>Prefer not to say</option>
-                                        <option value="other" ${this.formData.gender === 'other' ? 'selected' : ''}>Other</option>
+                                        <option value="">${languageService.t('registration.gender_select')}</option>
+                                        <option value="male" ${this.formData.gender === 'male' ? 'selected' : ''}>${languageService.t('registration.gender_male')}</option>
+                                        <option value="female" ${this.formData.gender === 'female' ? 'selected' : ''}>${languageService.t('registration.gender_female')}</option>
+                                        <option value="non-binary" ${this.formData.gender === 'non-binary' ? 'selected' : ''}>${languageService.t('registration.gender_nonbinary')}</option>
+                                        <option value="prefer-not-to-say" ${this.formData.gender === 'prefer-not-to-say' ? 'selected' : ''}>${languageService.t('registration.gender_prefernottosay')}</option>
+                                        <option value="other" ${this.formData.gender === 'other' ? 'selected' : ''}>${languageService.t('registration.gender_other')}</option>
                                     </select>
                                 </div>
                             </div>
 
                             <div class="form-group">
-                                <label class="form-label required" for="education">Highest Education Level</label>
+                                <label class="form-label required" for="education">${languageService.t('registration.education')}</label>
                                 <select id="education" class="form-select" required>
-                                    <option value="">Select education level</option>
-                                    <option value="high-school" ${this.formData.education === 'high-school' ? 'selected' : ''}>High School</option>
-                                    <option value="associate" ${this.formData.education === 'associate' ? 'selected' : ''}>Associate Degree</option>
-                                    <option value="bachelor" ${this.formData.education === 'bachelor' ? 'selected' : ''}>Bachelor's Degree</option>
-                                    <option value="master" ${this.formData.education === 'master' ? 'selected' : ''}>Master's Degree</option>
-                                    <option value="doctorate" ${this.formData.education === 'doctorate' ? 'selected' : ''}>Doctorate</option>
-                                    <option value="other" ${this.formData.education === 'other' ? 'selected' : ''}>Other</option>
+                                    <option value="">${languageService.t('registration.education_select')}</option>
+                                    <option value="high-school" ${this.formData.education === 'high-school' ? 'selected' : ''}>${languageService.t('registration.education_highschool')}</option>
+                                    <option value="associate" ${this.formData.education === 'associate' ? 'selected' : ''}>${languageService.t('registration.education_associate')}</option>
+                                    <option value="bachelor" ${this.formData.education === 'bachelor' ? 'selected' : ''}>${languageService.t('registration.education_bachelor')}</option>
+                                    <option value="master" ${this.formData.education === 'master' ? 'selected' : ''}>${languageService.t('registration.education_master')}</option>
+                                    <option value="doctorate" ${this.formData.education === 'doctorate' ? 'selected' : ''}>${languageService.t('registration.education_doctorate')}</option>
+                                    <option value="other" ${this.formData.education === 'other' ? 'selected' : ''}>${languageService.t('registration.education_other')}</option>
                                 </select>
                             </div>
 
                             <div class="form-group">
-                                <label class="form-label required" for="investment_years">Years of Investment Experience</label>
+                                <label class="form-label required" for="investment_years">${languageService.t('registration.investment_years')}</label>
                                 <input type="number" id="investment_years" class="form-input" required
                                        min="0" max="50" step="0.5"
                                        placeholder="e.g., 2.5 for two and a half years"
                                        value="${this.formData.investment_years}">
-                                <div class="form-help">Enter 0 if you have no investment experience.</div>
+                                <div class="form-help">${languageService.t('registration.investment_help')}</div>
                             </div>
                         </div>
 
                         <div class="form-section" style="margin-top: 40px;">
-                            <h3 style="margin-bottom: 20px; color: var(--text-primary);">Risk Preference Assessment</h3>
+                            <h3 style="margin-bottom: 20px; color: var(--text-primary);">${languageService.t('registration.risk_assessment')}</h3>
                             <p style="margin-bottom: 20px; color: var(--text-secondary);">
-                                How would you describe your willingness to take financial risks?
+                                ${languageService.t('registration.risk_question')}
                             </p>
 
                             <div class="rating-scale">
                                 <div class="rating-labels">
-                                    <span>Very Risk Averse</span>
-                                    <span>Very Risk Seeking</span>
+                                    <span>${languageService.t('registration.risk_averse')}</span>
+                                    <span>${languageService.t('registration.risk_seeking')}</span>
                                 </div>
                                 <div class="rating-options">
                                     ${[1, 2, 3, 4, 5, 6, 7].map(num => `
@@ -101,9 +103,9 @@ export class RegistrationView {
                                                    value="${num}" ${this.formData.risk_preference_score == num ? 'checked' : ''}>
                                             <label class="rating-label" for="risk-${num}">${num}</label>
                                             <div class="rating-description">
-                                                ${num === 1 ? 'Extremely cautious' :
-                                                  num === 4 ? 'Moderate' :
-                                                  num === 7 ? 'Extremely bold' : ''}
+                                                ${num === 1 ? languageService.t('registration.risk_cautious') :
+                                                  num === 4 ? languageService.t('registration.risk_moderate') :
+                                                  num === 7 ? languageService.t('registration.risk_bold') : ''}
                                             </div>
                                         </div>
                                     `).join('')}
@@ -112,15 +114,15 @@ export class RegistrationView {
                         </div>
 
                         <div class="form-section" style="margin-top: 40px;">
-                            <h3 style="margin-bottom: 20px; color: var(--text-primary);">ESG Preference Assessment</h3>
+                            <h3 style="margin-bottom: 20px; color: var(--text-primary);">${languageService.t('registration.esg_assessment')}</h3>
                             <p style="margin-bottom: 20px; color: var(--text-secondary);">
-                                How important are Environmental, Social, and Governance (ESG) factors in your investment decisions?
+                                ${languageService.t('registration.esg_question')}
                             </p>
 
                             <div class="rating-scale">
                                 <div class="rating-labels">
-                                    <span>Not Important</span>
-                                    <span>Very Important</span>
+                                    <span>${languageService.t('registration.esg_notimportant')}</span>
+                                    <span>${languageService.t('registration.esg_veryimportant')}</span>
                                 </div>
                                 <div class="rating-options">
                                     ${[1, 2, 3, 4, 5, 6, 7].map(num => `
@@ -129,9 +131,9 @@ export class RegistrationView {
                                                    value="${num}" ${this.formData.esg_preference_pre == num ? 'checked' : ''}>
                                             <label class="rating-label" for="esg-${num}">${num}</label>
                                             <div class="rating-description">
-                                                ${num === 1 ? 'Never consider ESG' :
-                                                  num === 4 ? 'Sometimes consider' :
-                                                  num === 7 ? 'Always prioritize ESG' : ''}
+                                                ${num === 1 ? languageService.t('registration.esg_never') :
+                                                  num === 4 ? languageService.t('registration.esg_sometimes') :
+                                                  num === 7 ? languageService.t('registration.esg_always') : ''}
                                             </div>
                                         </div>
                                     `).join('')}
@@ -144,19 +146,19 @@ export class RegistrationView {
                                 <i class="fas fa-info-circle"></i>
                             </div>
                             <div class="alert-content">
-                                <div class="alert-title">Random Group Assignment</div>
+                                <div class="alert-title">${languageService.t('registration.group_assignment')}</div>
                                 <div class="alert-message">
-                                    After registration, you will be randomly assigned to one of five experimental groups. This assignment determines the type of news articles you will read during the experiment.
+                                    ${languageService.t('registration.group_message')}
                                 </div>
                             </div>
                         </div>
 
                         <div class="btn-group">
                             <button type="button" class="btn btn-secondary" id="cancel-btn" data-route="welcome">
-                                <i class="fas fa-arrow-left"></i> Back to Welcome
+                                <i class="fas fa-arrow-left"></i> ${languageService.t('registration.back_welcome')}
                             </button>
                             <button type="submit" class="btn btn-primary" id="submit-btn">
-                                <i class="fas fa-check-circle"></i> Complete Registration & Start Experiment
+                                <i class="fas fa-check-circle"></i> ${languageService.t('registration.complete')}
                             </button>
                         </div>
                     </form>
@@ -208,14 +210,14 @@ export class RegistrationView {
                 const error = document.createElement('div');
                 error.className = 'form-error';
 
-                let message = 'This field is required';
+                let message = languageService.t('registration.validation_required');
                 if (input.type === 'email' && input.value) {
-                    message = 'Please enter a valid email address';
+                    message = languageService.t('registration.validation_email');
                 } else if (input.type === 'number') {
                     if (input.value < input.min) {
-                        message = `Value must be at least ${input.min}`;
+                        message = languageService.t('registration.validation_min', { min: input.min });
                     } else if (input.value > input.max) {
-                        message = `Value must be at most ${input.max}`;
+                        message = languageService.t('registration.validation_max', { max: input.max });
                     }
                 }
 
@@ -252,23 +254,23 @@ export class RegistrationView {
             const esgSelected = form.querySelector('input[name="esg_preference"]:checked');
 
             if (!riskSelected) {
-                this.ui.showAlert('error', 'Validation Error', 'Please select a risk preference rating.');
+                this.ui.showAlert('error', languageService.t('app.error'), languageService.t('registration.validation_risk'));
                 isValid = false;
             }
 
             if (!esgSelected) {
-                this.ui.showAlert('error', 'Validation Error', 'Please select an ESG preference rating.');
+                this.ui.showAlert('error', languageService.t('app.error'), languageService.t('registration.validation_esg'));
                 isValid = false;
             }
 
             if (!isValid) {
-                this.ui.showAlert('error', 'Validation Error', 'Please fill in all required fields correctly.');
+                this.ui.showAlert('error', languageService.t('app.error'), languageService.t('registration.validation_all'));
                 return;
             }
 
             // Disable submit button
             submitBtn.disabled = true;
-            submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Processing...';
+            submitBtn.innerHTML = `<i class="fas fa-spinner fa-spin"></i> ${languageService.t('registration.processing')}`;
 
             try {
                 // Collect form data
@@ -286,8 +288,8 @@ export class RegistrationView {
                 const result = await this.app.registerUser(formData);
 
                 if (result.success) {
-                    this.ui.showAlert('success', 'Registration Successful',
-                        `You have been assigned to Group ${result.user.experiment_group}. Please proceed to the news reading task.`);
+                    this.ui.showAlert('success', languageService.t('registration.success'),
+                        languageService.t('registration.success_message', { group: result.user.experiment_group }));
 
                     // Navigate to news view after a short delay
                     setTimeout(() => {
@@ -295,7 +297,7 @@ export class RegistrationView {
                     }, 2000);
                 } else {
                     // Handle error message (could be string or object)
-                    let errorMessage = 'Registration failed. Please try again.';
+                    let errorMessage = languageService.t('registration.error_message');
                     if (result.error) {
                         if (typeof result.error === 'string') {
                             errorMessage = result.error;
@@ -306,18 +308,29 @@ export class RegistrationView {
                         }
                     }
                     console.error('Registration failed:', result.error);
-                    this.ui.showAlert('error', 'Registration Failed', errorMessage);
+                    this.ui.showAlert('error', languageService.t('registration.error'), errorMessage);
                     submitBtn.disabled = false;
                     submitBtn.innerHTML = '<i class="fas fa-check-circle"></i> Complete Registration & Start Experiment';
                 }
 
             } catch (error) {
                 console.error('Registration error:', error);
-                this.ui.showAlert('error', 'Registration Error',
-                    'An unexpected error occurred. Please try again.');
+                this.ui.showAlert('error', languageService.t('app.error'),
+                    languageService.t('registration.error_unexpected'));
                 submitBtn.disabled = false;
-                submitBtn.innerHTML = '<i class="fas fa-check-circle"></i> Complete Registration & Start Experiment';
+                submitBtn.innerHTML = `<i class="fas fa-check-circle"></i> ${languageService.t('registration.complete')}`;
             }
         });
+    }
+
+    /**
+     * Refresh view when language changes
+     */
+    async refresh() {
+        const mainContent = document.getElementById('main-content');
+        if (mainContent) {
+            mainContent.innerHTML = await this.render();
+            await this.init();
+        }
     }
 }

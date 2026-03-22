@@ -1,6 +1,8 @@
 /**
  * Post-experiment evaluation view
  */
+import { languageService } from '../../services/language.js';
+
 export class PosttestView {
     constructor(ui) {
         this.ui = ui;
@@ -29,25 +31,25 @@ export class PosttestView {
             <div class="posttest-view">
                 <div class="card">
                     <div class="card-header">
-                        <h2 class="card-title">Post-Experiment Evaluation</h2>
-                        <p class="card-subtitle">Please complete the following questionnaires and evaluations.</p>
+                        <h2 class="card-title">${languageService.t('posttest.title')}</h2>
+                        <p class="card-subtitle">${languageService.t('posttest.subtitle')}</p>
                     </div>
 
                     <form id="evaluation-form">
                         <!-- Cognitive Spillover (EFCI proxy) -->
                         <div class="form-section">
-                            <h3 style="margin-bottom: 20px; color: var(--text-primary);">Cognitive Spillover Assessment</h3>
+                            <h3 style="margin-bottom: 20px; color: var(--text-primary);">${languageService.t('posttest.cognitive_title')}</h3>
                             <p style="margin-bottom: 20px; color: var(--text-secondary);">
-                                To what extent do you agree with the following statement?
+                                ${languageService.t('posttest.cognitive_question')}
                             </p>
                             <blockquote style="margin-bottom: 24px; padding: 16px; background: var(--background); border-left: 4px solid var(--primary-color);">
-                                "Good ESG performance will lead to good financial performance."
+                                ${languageService.t('posttest.cognitive_statement')}
                             </blockquote>
 
                             <div class="rating-scale">
                                 <div class="rating-labels">
-                                    <span>Strongly Disagree</span>
-                                    <span>Strongly Agree</span>
+                                    <span>${languageService.t('posttest.cognitive_disagree')}</span>
+                                    <span>${languageService.t('posttest.cognitive_agree')}</span>
                                 </div>
                                 <div class="rating-options">
                                     ${[1, 2, 3, 4, 5, 6, 7].map(num => `
@@ -56,9 +58,9 @@ export class PosttestView {
                                                    value="${num}" ${this.evaluationData.esg_financial_link_rating == num ? 'checked' : ''}>
                                             <label class="rating-label" for="esg-link-${num}">${num}</label>
                                             <div class="rating-description">
-                                                ${num === 1 ? 'Completely disagree' :
-                                                  num === 4 ? 'Neutral' :
-                                                  num === 7 ? 'Completely agree' : ''}
+                                                ${num === 1 ? languageService.t('posttest.cognitive_completely_disagree') :
+                                                  num === 4 ? languageService.t('posttest.cognitive_neutral') :
+                                                  num === 7 ? languageService.t('posttest.cognitive_completely_agree') : ''}
                                             </div>
                                         </div>
                                     `).join('')}
@@ -68,21 +70,21 @@ export class PosttestView {
 
                         <!-- Emotional State (Simplified PANAS) -->
                         <div class="form-section" style="margin-top: 40px;">
-                            <h3 style="margin-bottom: 20px; color: var(--text-primary);">Emotional State Assessment</h3>
+                            <h3 style="margin-bottom: 20px; color: var(--text-primary);">${languageService.t('posttest.emotional_title')}</h3>
                             <p style="margin-bottom: 20px; color: var(--text-secondary);">
-                                How do you feel right now? Please rate your current emotional state.
+                                ${languageService.t('posttest.emotional_question')}
                             </p>
 
                             <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 24px;">
                                 <div>
-                                    <h4 style="margin-bottom: 16px;">Positive Emotions</h4>
+                                    <h4 style="margin-bottom: 16px;">${languageService.t('posttest.positive_title')}</h4>
                                     <p style="margin-bottom: 16px; color: var(--text-secondary); font-size: 14px;">
-                                        How strongly are you experiencing positive emotions (e.g., interested, excited, enthusiastic)?
+                                        ${languageService.t('posttest.positive_question')}
                                     </p>
                                     <div class="rating-scale">
                                         <div class="rating-labels">
-                                            <span>Not at all</span>
-                                            <span>Extremely</span>
+                                            <span>${languageService.t('posttest.emotional_not_at_all')}</span>
+                                            <span>${languageService.t('posttest.emotional_extremely')}</span>
                                         </div>
                                         <div class="rating-options">
                                             ${[1, 2, 3, 4, 5].map(num => `
@@ -97,14 +99,14 @@ export class PosttestView {
                                 </div>
 
                                 <div>
-                                    <h4 style="margin-bottom: 16px;">Negative Emotions</h4>
+                                    <h4 style="margin-bottom: 16px;">${languageService.t('posttest.negative_title')}</h4>
                                     <p style="margin-bottom: 16px; color: var(--text-secondary); font-size: 14px;">
-                                        How strongly are you experiencing negative emotions (e.g., distressed, upset, nervous)?
+                                        ${languageService.t('posttest.negative_question')}
                                     </p>
                                     <div class="rating-scale">
                                         <div class="rating-labels">
-                                            <span>Not at all</span>
-                                            <span>Extremely</span>
+                                            <span>${languageService.t('posttest.emotional_not_at_all')}</span>
+                                            <span>${languageService.t('posttest.emotional_extremely')}</span>
                                         </div>
                                         <div class="rating-options">
                                             ${[1, 2, 3, 4, 5].map(num => `
@@ -122,15 +124,15 @@ export class PosttestView {
 
                         <!-- News Credibility -->
                         <div class="form-section" style="margin-top: 40px;">
-                            <h3 style="margin-bottom: 20px; color: var(--text-primary);">Overall News Credibility</h3>
+                            <h3 style="margin-bottom: 20px; color: var(--text-primary);">${languageService.t('posttest.credibility_title')}</h3>
                             <p style="margin-bottom: 20px; color: var(--text-secondary);">
-                                Overall, how credible did you find the news articles you read during this experiment?
+                                ${languageService.t('posttest.credibility_question')}
                             </p>
 
                             <div class="rating-scale">
                                 <div class="rating-labels">
-                                    <span>Not at all credible</span>
-                                    <span>Extremely credible</span>
+                                    <span>${languageService.t('posttest.credibility_not_credible')}</span>
+                                    <span>${languageService.t('posttest.credibility_extremely_credible')}</span>
                                 </div>
                                 <div class="rating-options">
                                     ${[1, 2, 3, 4, 5, 6, 7].map(num => `
@@ -139,9 +141,9 @@ export class PosttestView {
                                                    value="${num}" ${this.evaluationData.overall_credibility_rating == num ? 'checked' : ''}>
                                             <label class="rating-label" for="credibility-${num}">${num}</label>
                                             <div class="rating-description">
-                                                ${num === 1 ? 'Completely unreliable' :
-                                                  num === 4 ? 'Moderately credible' :
-                                                  num === 7 ? 'Highly trustworthy' : ''}
+                                                ${num === 1 ? languageService.t('posttest.credibility_completely_unreliable') :
+                                                  num === 4 ? languageService.t('posttest.credibility_moderately_credible') :
+                                                  num === 7 ? languageService.t('posttest.credibility_highly_trustworthy') : ''}
                                             </div>
                                         </div>
                                     `).join('')}
@@ -151,13 +153,13 @@ export class PosttestView {
 
                         <!-- Manipulation Check -->
                         <div class="form-section" style="margin-top: 40px;">
-                            <h3 style="margin-bottom: 20px; color: var(--text-primary);">News Recall Check</h3>
+                            <h3 style="margin-bottom: 20px; color: var(--text-primary);">${languageService.t('posttest.recall_title')}</h3>
                             <p style="margin-bottom: 20px; color: var(--text-secondary);">
-                                Please recall the main news articles you read during the experiment.
+                                ${languageService.t('posttest.recall_question')}
                             </p>
 
                             <div class="form-group">
-                                <label class="form-label" for="recalled_topic">What was the main topic of the news articles?</label>
+                                <label class="form-label" for="recalled_topic">${languageService.t('posttest.recall_topic_label')}</label>
                                 <select id="recalled_topic" class="form-select">
                                     <option value="">Select topic</option>
                                     <option value="esg" ${this.evaluationData.recalled_news_topic === 'esg' ? 'selected' : ''}>ESG (Environmental, Social, Governance)</option>
@@ -170,7 +172,7 @@ export class PosttestView {
                             </div>
 
                             <div class="form-group">
-                                <label class="form-label" for="recalled_tone">What was the overall tone of the news articles?</label>
+                                <label class="form-label" for="recalled_tone">${languageService.t('posttest.recall_tone_label')}</label>
                                 <select id="recalled_tone" class="form-select">
                                     <option value="">Select tone</option>
                                     <option value="positive" ${this.evaluationData.recalled_news_tone === 'positive' ? 'selected' : ''}>Positive/Optimistic</option>
@@ -182,17 +184,17 @@ export class PosttestView {
                             </div>
 
                             <div class="form-group">
-                                <label class="form-label">Based on your recall, did you read articles that matched your expectations?</label>
+                                <label class="form-label">${languageService.t('posttest.recall_manipulation_label')}</label>
                                 <div style="display: flex; gap: 20px; margin-top: 8px;">
                                     <label style="display: flex; align-items: center; gap: 8px;">
                                         <input type="radio" name="manipulation_check" value="true"
                                                ${this.evaluationData.passed_manipulation_check === true ? 'checked' : ''}>
-                                        Yes, the articles matched what I expected
+                                        ${languageService.t('posttest.recall_yes')}
                                     </label>
                                     <label style="display: flex; align-items: center; gap: 8px;">
                                         <input type="radio" name="manipulation_check" value="false"
                                                ${this.evaluationData.passed_manipulation_check === false ? 'checked' : ''}>
-                                        No, the articles were different than expected
+                                        ${languageService.t('posttest.recall_no')}
                                     </label>
                                 </div>
                             </div>
@@ -200,21 +202,21 @@ export class PosttestView {
 
                         <!-- Preference Retest -->
                         <div class="form-section" style="margin-top: 40px;">
-                            <h3 style="margin-bottom: 20px; color: var(--text-primary);">Final Preference Assessment</h3>
+                            <h3 style="margin-bottom: 20px; color: var(--text-primary);">${languageService.t('posttest.preference_title')}</h3>
                             <p style="margin-bottom: 20px; color: var(--text-secondary);">
-                                Please rate your current preferences after completing the experiment.
+                                ${languageService.t('posttest.preference_question')}
                             </p>
 
                             <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 24px;">
                                 <div>
-                                    <h4 style="margin-bottom: 16px;">Risk Preference</h4>
+                                    <h4 style="margin-bottom: 16px;">${languageService.t('posttest.risk_post_title')}</h4>
                                     <p style="margin-bottom: 16px; color: var(--text-secondary); font-size: 14px;">
-                                        How would you describe your willingness to take financial risks now?
+                                        ${languageService.t('posttest.risk_post_question')}
                                     </p>
                                     <div class="rating-scale">
                                         <div class="rating-labels">
-                                            <span>Very Risk Averse</span>
-                                            <span>Very Risk Seeking</span>
+                                            <span>${languageService.t('posttest.risk_averse')}</span>
+                                            <span>${languageService.t('posttest.risk_seeking')}</span>
                                         </div>
                                         <div class="rating-options">
                                             ${[1, 2, 3, 4, 5, 6, 7].map(num => `
@@ -229,14 +231,14 @@ export class PosttestView {
                                 </div>
 
                                 <div>
-                                    <h4 style="margin-bottom: 16px;">ESG Preference</h4>
+                                    <h4 style="margin-bottom: 16px;">${languageService.t('posttest.esg_post_title')}</h4>
                                     <p style="margin-bottom: 16px; color: var(--text-secondary); font-size: 14px;">
-                                        How important are ESG factors in your investment decisions now?
+                                        ${languageService.t('posttest.esg_post_question')}
                                     </p>
                                     <div class="rating-scale">
                                         <div class="rating-labels">
-                                            <span>Not Important</span>
-                                            <span>Very Important</span>
+                                            <span>${languageService.t('posttest.esg_not_important')}</span>
+                                            <span>${languageService.t('posttest.esg_very_important')}</span>
                                         </div>
                                         <div class="rating-options">
                                             ${[1, 2, 3, 4, 5, 6, 7].map(num => `
@@ -254,18 +256,18 @@ export class PosttestView {
 
                         <!-- Attention Check Questions -->
                         <div class="form-section" style="margin-top: 40px;">
-                            <h3 style="margin-bottom: 20px; color: var(--text-primary);">Attention Check Questions</h3>
+                            <h3 style="margin-bottom: 20px; color: var(--text-primary);">${languageService.t('posttest.attention_title')}</h3>
                             <p style="margin-bottom: 20px; color: var(--text-secondary);">
-                                Please answer these questions carefully to show you are paying attention.
+                                ${languageService.t('posttest.attention_question')}
                             </p>
 
                             <!-- Attention Check 1: Select specific answer -->
                             <div class="form-group">
                                 <label class="form-label" style="margin-bottom: 8px;">
-                                    Please select <strong>"Strongly Agree"</strong> to show you are paying attention:
+                                    ${languageService.t('posttest.attention_check_1_label')}
                                 </label>
                                 <div style="display: flex; gap: 20px; margin-top: 8px;">
-                                    ${['Strongly Disagree', 'Disagree', 'Somewhat Disagree', 'Neutral', 'Somewhat Agree', 'Agree', 'Strongly Agree'].map((label, index) => {
+                                    ${languageService.t('posttest.attention_options').map((label, index) => {
                                         const value = index + 1;
                                         return `
                                             <label style="display: flex; align-items: center; gap: 8px;">
@@ -280,10 +282,10 @@ export class PosttestView {
                             <!-- Attention Check 2: Select specific answer -->
                             <div class="form-group" style="margin-top: 24px;">
                                 <label class="form-label" style="margin-bottom: 8px;">
-                                    Please select <strong>"Not at all"</strong> for this question:
+                                    ${languageService.t('posttest.attention_check_2_label')}
                                 </label>
                                 <div style="display: flex; gap: 20px; margin-top: 8px;">
-                                    ${['Not at all', 'Slightly', 'Moderately', 'Very', 'Extremely'].map((label, index) => {
+                                    ${languageService.t('posttest.attention_options_2').map((label, index) => {
                                         const value = index + 1;
                                         return `
                                             <label style="display: flex; align-items: center; gap: 8px;">
@@ -298,11 +300,11 @@ export class PosttestView {
 
                         <!-- Comments -->
                         <div class="form-section" style="margin-top: 40px;">
-                            <h3 style="margin-bottom: 16px; color: var(--text-primary);">Additional Comments</h3>
+                            <h3 style="margin-bottom: 16px; color: var(--text-primary);">${languageService.t('posttest.comments_title')}</h3>
                             <div class="form-group">
-                                <label class="form-label" for="comments">Any additional comments or feedback about the experiment?</label>
+                                <label class="form-label" for="comments">${languageService.t('posttest.comments_label')}</label>
                                 <textarea id="comments" class="form-textarea" rows="4"
-                                          placeholder="Optional: Share your thoughts about the experiment, suggestions for improvement, or any difficulties you encountered.">${this.evaluationData.comments || ''}</textarea>
+                                          placeholder="${languageService.t('posttest.comments_placeholder')}">${this.evaluationData.comments || ''}</textarea>
                             </div>
                         </div>
 
@@ -311,16 +313,16 @@ export class PosttestView {
                                 <i class="fas fa-info-circle"></i>
                             </div>
                             <div class="alert-content">
-                                <div class="alert-title">Data Integrity</div>
+                                <div class="alert-title">${languageService.t('posttest.data_integrity_title')}</div>
                                 <div class="alert-message">
-                                    Your honest responses are crucial for the validity of this research. Please answer all questions thoughtfully.
+                                    ${languageService.t('posttest.data_integrity_message')}
                                 </div>
                             </div>
                         </div>
 
                         <div class="btn-group">
                             <button type="submit" class="btn btn-primary" id="submit-btn">
-                                <i class="fas fa-check-circle"></i> Complete Evaluation & Finish Experiment
+                                <i class="fas fa-check-circle"></i> ${languageService.t('posttest.submit')}
                             </button>
                         </div>
                     </form>
@@ -440,18 +442,29 @@ export class PosttestView {
                     }, 2000);
 
                 } else {
-                    this.ui.showAlert('error', 'Submission Failed', result.error);
+                    this.ui.showAlert('error', languageService.t('posttest.submission_failed'), result.error);
                     submitBtn.disabled = false;
-                    submitBtn.innerHTML = '<i class="fas fa-check-circle"></i> Complete Evaluation & Finish Experiment';
+                    submitBtn.innerHTML = `<i class="fas fa-check-circle"></i> ${languageService.t('posttest.submit')}`;
                 }
 
             } catch (error) {
                 console.error('Evaluation submission error:', error);
-                this.ui.showAlert('error', 'Submission Error',
-                    'An unexpected error occurred. Please try again.');
+                this.ui.showAlert('error', languageService.t('posttest.submission_error'),
+                    languageService.t('posttest.submission_error_message'));
                 submitBtn.disabled = false;
-                submitBtn.innerHTML = '<i class="fas fa-check-circle"></i> Complete Evaluation & Finish Experiment';
+                submitBtn.innerHTML = `<i class="fas fa-check-circle"></i> ${languageService.t('posttest.submit')}`;
             }
         });
+    }
+
+    /**
+     * Refresh view when language changes
+     */
+    async refresh() {
+        const mainContent = document.getElementById('main-content');
+        if (mainContent) {
+            mainContent.innerHTML = await this.render();
+            await this.init();
+        }
     }
 }

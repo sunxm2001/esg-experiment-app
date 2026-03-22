@@ -1,6 +1,8 @@
 /**
  * Prediction and trading view
  */
+import { languageService } from '../../services/language.js';
+
 export class PredictionView {
     constructor(ui) {
         this.ui = ui;
@@ -24,34 +26,34 @@ export class PredictionView {
             <div class="prediction-view">
                 <div class="card">
                     <div class="card-header">
-                        <h2 class="card-title">Prediction & Trading Decision</h2>
-                        <p class="card-subtitle">Based on the article you just read, make predictions and allocate your virtual capital.</p>
+                        <h2 class="card-title">${languageService.t('prediction.title')}</h2>
+                        <p class="card-subtitle">${languageService.t('prediction.subtitle')}</p>
                     </div>
 
                     <div id="article-summary" style="margin-bottom: 32px;">
                         <div class="text-center" style="padding: 40px 0;">
                             <div class="loading-spinner"></div>
-                            <p>Loading article information...</p>
+                            <p>${languageService.t('prediction.loading_article')}</p>
                         </div>
                     </div>
 
                     <form id="prediction-form">
                         <div class="form-section">
-                            <h3 style="margin-bottom: 20px; color: var(--text-primary);">Financial Predictions</h3>
+                            <h3 style="margin-bottom: 20px; color: var(--text-primary);">${languageService.t('prediction.financial_title')}</h3>
                             <p style="margin-bottom: 24px; color: var(--text-secondary);">
-                                Based on the news article, how do you expect the company to perform in the future?
+                                ${languageService.t('prediction.financial_question')}
                             </p>
 
                             <div class="prediction-question" style="margin-bottom: 40px;">
-                                <h4 style="margin-bottom: 16px;">Future Stock Price</h4>
+                                <h4 style="margin-bottom: 16px;">${languageService.t('prediction.stock_title')}</h4>
                                 <p style="margin-bottom: 16px; color: var(--text-secondary);">
-                                    How do you expect the company's stock price to perform over the next year?
+                                    ${languageService.t('prediction.stock_question')}
                                 </p>
 
                                 <div class="rating-scale">
                                     <div class="rating-labels">
-                                        <span>Strongly Decline</span>
-                                        <span>Strongly Increase</span>
+                                        <span>${languageService.t('prediction.stock_decline')}</span>
+                                        <span>${languageService.t('prediction.stock_increase')}</span>
                                     </div>
                                     <div class="rating-options">
                                         ${[1, 2, 3, 4, 5, 6, 7].map(num => `
@@ -60,9 +62,9 @@ export class PredictionView {
                                                        value="${num}" ${this.predictionData.future_stock_price_rating == num ? 'checked' : ''}>
                                                 <label class="rating-label" for="stock-${num}">${num}</label>
                                                 <div class="rating-description">
-                                                    ${num === 1 ? 'Significant loss expected' :
-                                                      num === 4 ? 'Stable performance' :
-                                                      num === 7 ? 'Major gains expected' : ''}
+                                                    ${num === 1 ? languageService.t('prediction.stock_significant_loss') :
+                                                      num === 4 ? languageService.t('prediction.stock_stable') :
+                                                      num === 7 ? languageService.t('prediction.stock_major_gains') : ''}
                                                 </div>
                                             </div>
                                         `).join('')}
@@ -71,15 +73,15 @@ export class PredictionView {
                             </div>
 
                             <div class="prediction-question" style="margin-bottom: 40px;">
-                                <h4 style="margin-bottom: 16px;">Future Profitability</h4>
+                                <h4 style="margin-bottom: 16px;">${languageService.t('prediction.profit_title')}</h4>
                                 <p style="margin-bottom: 16px; color: var(--text-secondary);">
-                                    How do you expect the company's profitability to change over the next year?
+                                    ${languageService.t('prediction.profit_question')}
                                 </p>
 
                                 <div class="rating-scale">
                                     <div class="rating-labels">
-                                        <span>Strongly Decrease</span>
-                                        <span>Strongly Increase</span>
+                                        <span>${languageService.t('prediction.profit_decrease')}</span>
+                                        <span>${languageService.t('prediction.profit_increase')}</span>
                                     </div>
                                     <div class="rating-options">
                                         ${[1, 2, 3, 4, 5, 6, 7].map(num => `
@@ -88,9 +90,9 @@ export class PredictionView {
                                                        value="${num}" ${this.predictionData.future_profitability_rating == num ? 'checked' : ''}>
                                                 <label class="rating-label" for="profit-${num}">${num}</label>
                                                 <div class="rating-description">
-                                                    ${num === 1 ? 'Major decline in profits' :
-                                                      num === 4 ? 'Steady profitability' :
-                                                      num === 7 ? 'Substantial profit growth' : ''}
+                                                    ${num === 1 ? languageService.t('prediction.profit_major_decline') :
+                                                      num === 4 ? languageService.t('prediction.profit_steady') :
+                                                      num === 7 ? languageService.t('prediction.profit_substantial_growth') : ''}
                                                 </div>
                                             </div>
                                         `).join('')}
@@ -100,9 +102,9 @@ export class PredictionView {
                         </div>
 
                         <div class="form-section" style="margin-top: 40px;">
-                            <h3 style="margin-bottom: 20px; color: var(--text-primary);">Trading Decision</h3>
+                            <h3 style="margin-bottom: 20px; color: var(--text-primary);">${languageService.t('prediction.trading_title')}</h3>
                             <p style="margin-bottom: 24px; color: var(--text-secondary);">
-                                You have <strong>$${virtualCapital.toLocaleString()}</strong> in virtual capital. What percentage would you invest in this company's stock?
+                                ${languageService.t('prediction.trading_question', { capital: virtualCapital.toLocaleString() })}
                             </p>
 
                             <div class="slider-container">
@@ -110,18 +112,18 @@ export class PredictionView {
                                 <input type="range" min="0" max="100" value="${this.predictionData.capital_allocation_percentage}"
                                        class="slider" id="allocation-slider">
                                 <div class="slider-labels">
-                                    <span>0% (No investment)</span>
-                                    <span>100% (All-in)</span>
+                                    <span>${languageService.t('prediction.slider_no_investment')}</span>
+                                    <span>${languageService.t('prediction.slider_all_in')}</span>
                                 </div>
                             </div>
 
                             <div style="margin-top: 32px; padding: 20px; background: var(--background); border-radius: var(--border-radius);">
                                 <div style="display: flex; justify-content: space-between; margin-bottom: 12px;">
-                                    <span>Amount to invest:</span>
+                                    <span>${languageService.t('prediction.amount_to_invest')}</span>
                                     <strong id="investment-amount">$${(virtualCapital * this.predictionData.capital_allocation_percentage / 100).toLocaleString()}</strong>
                                 </div>
                                 <div style="display: flex; justify-content: space-between;">
-                                    <span>Remaining capital:</span>
+                                    <span>${languageService.t('prediction.remaining_capital')}</span>
                                     <strong id="remaining-amount">$${(virtualCapital * (100 - this.predictionData.capital_allocation_percentage) / 100).toLocaleString()}</strong>
                                 </div>
                             </div>
@@ -132,31 +134,31 @@ export class PredictionView {
                                 <i class="fas fa-info-circle"></i>
                             </div>
                             <div class="alert-content">
-                                <div class="alert-title">Performance Bonus</div>
+                                <div class="alert-title">${languageService.t('prediction.performance_bonus_title')}</div>
                                 <div class="alert-message">
-                                    Your prediction accuracy and portfolio performance will determine your bonus payment at the end of the experiment.
+                                    ${languageService.t('prediction.performance_bonus_message')}
                                 </div>
                             </div>
                         </div>
 
                         <div class="btn-group">
                             <button type="button" class="btn btn-secondary" id="skip-btn" style="display: none;">
-                                <i class="fas fa-forward"></i> Skip This Article
+                                <i class="fas fa-forward"></i> ${languageService.t('prediction.skip_article')}
                             </button>
                             <button type="submit" class="btn btn-primary" id="submit-btn">
-                                <i class="fas fa-paper-plane"></i> Submit Prediction & Continue
+                                <i class="fas fa-paper-plane"></i> ${languageService.t('prediction.submit')}
                             </button>
                         </div>
                     </form>
 
                     <div id="completion-message" style="display: none; text-align: center; padding: 40px 0;">
                         <i class="fas fa-check-circle" style="font-size: 64px; color: var(--success-color); margin-bottom: 20px;"></i>
-                        <h3 style="margin-bottom: 16px;">Predictions Complete!</h3>
+                        <h3 style="margin-bottom: 16px;">${languageService.t('prediction.complete_title')}</h3>
                         <p style="margin-bottom: 32px; color: var(--text-secondary); max-width: 600px; margin-left: auto; margin-right: auto;">
-                            You have completed all prediction tasks. Please proceed to the post-experiment evaluation.
+                            ${languageService.t('prediction.complete_message')}
                         </p>
                         <button class="btn btn-primary" id="proceed-btn" data-route="posttest">
-                            <i class="fas fa-clipboard-check"></i> Proceed to Evaluation
+                            <i class="fas fa-clipboard-check"></i> ${languageService.t('prediction.proceed_evaluation')}
                         </button>
                     </div>
                 </div>
@@ -214,8 +216,8 @@ export class PredictionView {
 
         } catch (error) {
             console.error('Failed to load article:', error);
-            this.ui.showAlert('error', 'Loading Error',
-                'Failed to load article information. Please try again.');
+            this.ui.showAlert('error', languageService.t('app.error'),
+                languageService.t('prediction.submission_error_message'));
         }
     }
 
@@ -226,7 +228,7 @@ export class PredictionView {
         const summaryContainer = document.getElementById('article-summary');
         if (!summaryContainer) return;
 
-        const isFiller = article.is_filler ? '<span class="group-badge" style="background: #F5F5F5; color: #666; margin-left: 12px;">Filler Article</span>' : '';
+        const isFiller = article.is_filler ? `<span class="group-badge" style="background: #F5F5F5; color: #666; margin-left: 12px;">${languageService.t('news.filler_article')}</span>` : '';
 
         summaryContainer.innerHTML = `
             <div style="background: var(--background); border-radius: var(--border-radius); padding: 24px;">
@@ -249,7 +251,7 @@ export class PredictionView {
      * Truncate content for summary
      */
     truncateContent(content, maxLength) {
-        if (!content) return 'No content available.';
+        if (!content) return languageService.t('news.no_content');
         if (content.length <= maxLength) return content;
 
         return content.substring(0, maxLength) + '...';
@@ -345,14 +347,14 @@ export class PredictionView {
                 const profitRating = form.querySelector('input[name="future_profitability_rating"]:checked');
 
                 if (!stockRating || !profitRating) {
-                    this.ui.showAlert('error', 'Validation Error',
-                        'Please complete both prediction ratings before submitting.');
+                    this.ui.showAlert('error', languageService.t('prediction.validation_error'),
+                        languageService.t('prediction.validation_message'));
                     return;
                 }
 
                 // Disable submit button
                 submitBtn.disabled = true;
-                submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Processing...';
+                submitBtn.innerHTML = `<i class="fas fa-spinner fa-spin"></i> ${languageService.t('prediction.processing')}`;
 
                 try {
                     // Collect prediction data
@@ -371,28 +373,28 @@ export class PredictionView {
                     const result = await this.app.submitPrediction(predictionData);
 
                     if (result.success) {
-                        this.ui.showAlert('success', 'Prediction Submitted',
-                            'Your prediction has been recorded. Loading next article...');
+                        this.ui.showAlert('success', languageService.t('prediction.submission_success'),
+                            languageService.t('prediction.submission_success_message'));
 
                         // Load next article after delay
                         setTimeout(async () => {
                             await this.loadCurrentArticle();
                             submitBtn.disabled = false;
-                            submitBtn.innerHTML = '<i class="fas fa-paper-plane"></i> Submit Prediction & Continue';
+                            submitBtn.innerHTML = `<i class="fas fa-paper-plane"></i> ${languageService.t('prediction.submit')}`;
                         }, 1500);
 
                     } else {
-                        this.ui.showAlert('error', 'Submission Failed', result.error);
+                        this.ui.showAlert('error', languageService.t('prediction.submission_failed'), result.error);
                         submitBtn.disabled = false;
-                        submitBtn.innerHTML = '<i class="fas fa-paper-plane"></i> Submit Prediction & Continue';
+                        submitBtn.innerHTML = `<i class="fas fa-paper-plane"></i> ${languageService.t('prediction.submit')}`;
                     }
 
                 } catch (error) {
                     console.error('Prediction submission error:', error);
-                    this.ui.showAlert('error', 'Submission Error',
-                        'An unexpected error occurred. Please try again.');
+                    this.ui.showAlert('error', languageService.t('prediction.submission_error'),
+                        languageService.t('prediction.submission_error_message'));
                     submitBtn.disabled = false;
-                    submitBtn.innerHTML = '<i class="fas fa-paper-plane"></i> Submit Prediction & Continue';
+                    submitBtn.innerHTML = `<i class="fas fa-paper-plane"></i> ${languageService.t('prediction.submit')}`;
                 }
             });
         }
@@ -428,6 +430,17 @@ export class PredictionView {
                 e.preventDefault();
                 this.app.router.navigate('posttest');
             });
+        }
+    }
+
+    /**
+     * Refresh view when language changes
+     */
+    async refresh() {
+        const mainContent = document.getElementById('main-content');
+        if (mainContent) {
+            mainContent.innerHTML = await this.render();
+            await this.init();
         }
     }
 }

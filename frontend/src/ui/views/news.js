@@ -1,6 +1,8 @@
 /**
  * News reading view
  */
+import { languageService } from '../../services/language.js';
+
 export class NewsView {
     constructor(ui) {
         this.ui = ui;
@@ -25,15 +27,15 @@ export class NewsView {
             <div class="news-view">
                 <div class="timer-container" id="timer-container">
                     <div class="timer" id="timer">60</div>
-                    <div class="timer-label">Seconds Remaining</div>
+                    <div class="timer-label">${languageService.t('news.seconds_remaining')}</div>
                 </div>
 
                 <div class="card">
                     <div class="card-header">
                         <div style="display: flex; justify-content: space-between; align-items: flex-start;">
                             <div>
-                                <h2 class="card-title">News Reading Task</h2>
-                                <p class="card-subtitle">Read the following article carefully. You have a limited time to read and answer questions.</p>
+                                <h2 class="card-title">${languageService.t('news.title')}</h2>
+                                <p class="card-subtitle">${languageService.t('news.subtitle')}</p>
                             </div>
                             ${groupBadge}
                         </div>
@@ -42,20 +44,20 @@ export class NewsView {
                     <div id="article-container" style="min-height: 400px;">
                         <div class="text-center" style="padding: 60px 0;">
                             <div class="loading-spinner"></div>
-                            <p style="margin-top: 20px;">Loading news articles...</p>
+                            <p style="margin-top: 20px;">${languageService.t('news.loading_articles')}</p>
                         </div>
                     </div>
 
                     <div id="credibility-rating" style="display: none; margin-top: 32px;">
-                        <h3 style="margin-bottom: 16px;">Article Credibility Rating</h3>
+                        <h3 style="margin-bottom: 16px;">${languageService.t('news.credibility_title')}</h3>
                         <p style="margin-bottom: 20px; color: var(--text-secondary);">
-                            How credible do you find this article?
+                            ${languageService.t('news.credibility_question')}
                         </p>
 
                         <div class="rating-scale">
                             <div class="rating-labels">
-                                <span>Not at all credible</span>
-                                <span>Extremely credible</span>
+                                <span>${languageService.t('news.credibility_not_credible')}</span>
+                                <span>${languageService.t('news.credibility_extremely_credible')}</span>
                             </div>
                             <div class="rating-options">
                                 ${[1, 2, 3, 4, 5, 6, 7].map(num => `
@@ -63,9 +65,9 @@ export class NewsView {
                                         <input type="radio" id="cred-${num}" name="credibility_rating" value="${num}">
                                         <label class="rating-label" for="cred-${num}">${num}</label>
                                         <div class="rating-description">
-                                            ${num === 1 ? 'Completely unreliable' :
-                                              num === 4 ? 'Moderately credible' :
-                                              num === 7 ? 'Highly trustworthy' : ''}
+                                            ${num === 1 ? languageService.t('news.credibility_completely_unreliable') :
+                                              num === 4 ? languageService.t('news.credibility_moderately_credible') :
+                                              num === 7 ? languageService.t('news.credibility_highly_trustworthy') : ''}
                                         </div>
                                     </div>
                                 `).join('')}
@@ -74,19 +76,19 @@ export class NewsView {
 
                         <div class="btn-group">
                             <button class="btn btn-primary btn-full" id="next-article-btn" disabled>
-                                <i class="fas fa-arrow-right"></i> Next Article
+                                <i class="fas fa-arrow-right"></i> ${languageService.t('news.next_article')}
                             </button>
                         </div>
                     </div>
 
                     <div id="completion-message" style="display: none; text-align: center; padding: 40px 0;">
                         <i class="fas fa-check-circle" style="font-size: 64px; color: var(--success-color); margin-bottom: 20px;"></i>
-                        <h3 style="margin-bottom: 16px;">News Reading Task Complete!</h3>
+                        <h3 style="margin-bottom: 16px;">${languageService.t('news.complete_title')}</h3>
                         <p style="margin-bottom: 32px; color: var(--text-secondary); max-width: 600px; margin-left: auto; margin-right: auto;">
-                            You have completed all news articles. Please proceed to the prediction and trading task.
+                            ${languageService.t('news.complete_message')}
                         </p>
                         <button class="btn btn-primary" id="proceed-btn" data-route="prediction">
-                            <i class="fas fa-chart-bar"></i> Proceed to Prediction Task
+                            <i class="fas fa-chart-bar"></i> ${languageService.t('news.proceed_prediction')}
                         </button>
                     </div>
 
@@ -95,9 +97,9 @@ export class NewsView {
                             <i class="fas fa-info-circle"></i>
                         </div>
                         <div class="alert-content">
-                            <div class="alert-title">Attention Tracking</div>
+                            <div class="alert-title">${languageService.t('news.attention_title')}</div>
                             <div class="alert-message">
-                                Your reading time is being tracked as a measure of attention. Please read each article carefully within the time limit.
+                                ${languageService.t('news.attention_message')}
                             </div>
                         </div>
                     </div>
@@ -124,7 +126,7 @@ export class NewsView {
 
             if (!this.app.currentUser) {
                 console.error('NewsView: No current user found!');
-                this.ui.showAlert('error', 'Session Error', 'User session not found. Please restart the experiment.');
+                this.ui.showAlert('error', languageService.t('news.session_error'), languageService.t('news.user_not_found'));
                 return;
             }
 
@@ -152,7 +154,7 @@ export class NewsView {
                 }
             } else {
                 console.error('NewsView: Failed to load articles:', result);
-                let errorMessage = 'Failed to load news articles. Please try again.';
+                let errorMessage = languageService.t('news.loading_error');
 
                 if (result.error) {
                     errorMessage = result.error;
@@ -160,16 +162,16 @@ export class NewsView {
                         errorMessage = JSON.stringify(errorMessage);
                     }
                 } else if (!result.articles || result.articles.length === 0) {
-                    errorMessage = 'No articles available for your experiment group.';
+                    errorMessage = languageService.t('news.no_articles');
                 }
 
-                this.ui.showAlert('error', 'Loading Error', errorMessage);
+                this.ui.showAlert('error', languageService.t('app.error'), errorMessage);
             }
         } catch (error) {
             console.error('Failed to load articles:', error);
             console.error('Error details:', error.message, error.stack);
-            this.ui.showAlert('error', 'Loading Error',
-                'An unexpected error occurred while loading articles.');
+            this.ui.showAlert('error', languageService.t('app.error'),
+                languageService.t('news.unexpected_error'));
         }
     }
 
@@ -220,9 +222,9 @@ export class NewsView {
                         <i class="fas fa-exclamation-circle"></i>
                     </div>
                     <div class="alert-content">
-                        <div class="alert-title">Article Error</div>
+                        <div class="alert-title">${languageService.t('news.article_error')}</div>
                         <div class="alert-message">
-                            Failed to load article content. Please refresh the page or contact the researcher.
+                            ${languageService.t('news.article_load_error')}
                         </div>
                     </div>
                 </div>
@@ -230,7 +232,7 @@ export class NewsView {
             return;
         }
 
-        const isFiller = this.currentArticle.is_filler ? '<span class="group-badge" style="background: #F5F5F5; color: #666; margin-left: 12px;">Filler Article</span>' : '';
+        const isFiller = this.currentArticle.is_filler ? `<span class="group-badge" style="background: #F5F5F5; color: #666; margin-left: 12px;">${languageService.t('news.filler_article')}</span>` : '';
 
         const progressPercent = ((this.currentArticleIndex + 1) / this.articles.length) * 100;
 
@@ -248,17 +250,17 @@ export class NewsView {
                     <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
                         <div>
                             <h3 style="margin: 0; font-size: 18px; font-weight: 600;">
-                                <i class="fas fa-trophy"></i> Reading Progress
+                                <i class="fas fa-trophy"></i> ${languageService.t('news.reading_progress')}
                             </h3>
                             <p style="margin: 8px 0 0 0; opacity: 0.9; font-size: 14px;">
-                                Complete all articles to earn your base payment.
+                                ${languageService.t('news.progress_message')}
                             </p>
                         </div>
                         <div style="text-align: right;">
                             <div style="font-size: 24px; font-weight: bold;">
                                 ${this.currentArticleIndex + 1}/${this.articles.length}
                             </div>
-                            <div style="font-size: 14px; opacity: 0.9;">Articles</div>
+                            <div style="font-size: 14px; opacity: 0.9;">${languageService.t('news.articles')}</div>
                         </div>
                     </div>
                     <div style="background: rgba(255, 255, 255, 0.2); height: 6px; border-radius: 3px; overflow: hidden;">
@@ -269,8 +271,8 @@ export class NewsView {
                 <div class="article-header">
                     <h1 class="article-title">${this.currentArticle.title} ${isFiller}</h1>
                     <div class="article-meta">
-                        <span><i class="far fa-clock"></i> Time limit: ${this.timeLimit} seconds</span>
-                        <span><i class="far fa-newspaper"></i> Article ${this.currentArticleIndex + 1} of ${this.articles.length}</span>
+                        <span><i class="far fa-clock"></i> ${languageService.t('news.time_limit', { seconds: this.timeLimit })}</span>
+                        <span><i class="far fa-newspaper"></i> ${languageService.t('news.article_x_of_y', { current: this.currentArticleIndex + 1, total: this.articles.length })}</span>
                     </div>
                 </div>
                 <div class="article-content">
@@ -301,7 +303,7 @@ export class NewsView {
 
         if (!content) {
             console.warn('NewsView: Article content is empty or undefined');
-            return '<p class="content-warning">No content available for this article.</p>';
+            return `<p class="content-warning">${languageService.t('news.no_content')}</p>`;
         }
 
         try {
@@ -380,8 +382,8 @@ export class NewsView {
         // Show credibility rating
         this.showCredibilityRating();
 
-        this.ui.showAlert('warning', 'Time Expired',
-            'Time limit reached. Please rate the article credibility and proceed.');
+        this.ui.showAlert('warning', languageService.t('news.time_expired'),
+            languageService.t('news.time_expired_message'));
     }
 
     /**
@@ -445,8 +447,8 @@ export class NewsView {
         // Get credibility rating before proceeding
         const ratingInput = document.querySelector('input[name="credibility_rating"]:checked');
         if (!ratingInput) {
-            this.ui.showAlert('error', 'Rating Required',
-                'Please rate the article credibility before proceeding.');
+            this.ui.showAlert('error', languageService.t('news.rating_required'),
+                languageService.t('news.rating_required_message'));
             return;
         }
 
@@ -545,6 +547,17 @@ export class NewsView {
                 this.completeReadingSession(durationSeconds, true);
                 this.showCredibilityRating();
             });
+        }
+    }
+
+    /**
+     * Refresh view when language changes
+     */
+    async refresh() {
+        const mainContent = document.getElementById('main-content');
+        if (mainContent) {
+            mainContent.innerHTML = await this.render();
+            await this.init();
         }
     }
 }
