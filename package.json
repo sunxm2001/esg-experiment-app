@@ -6,6 +6,7 @@
   "scripts": {
     "start": "cd backend && npm start",
     "dev": "cd backend && npm run dev",
+    "postinstall": "cd backend && npm install --omit=dev",
     "install-all": "cd backend && npm install && cd ../frontend && npm install",
     "seed": "cd backend && npm run seed",
     "setup-db": "createdb esg_experiment && psql -U $USER -d esg_experiment -f database/schema.sql",
