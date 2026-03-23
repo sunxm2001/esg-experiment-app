@@ -143,15 +143,34 @@ class NewsArticle {
     }
 
     values.push(articleId);
-    const query = `
+
+    // First try with updated_at timestamp
+    const queryWithTimestamp = `
       UPDATE news_articles
       SET ${fields.join(', ')}, updated_at = CURRENT_TIMESTAMP
       WHERE id = $${paramCount}
       RETURNING *;
     `;
 
-    const result = await db.query(query, values);
-    return result.rows[0];
+    try {
+      const result = await db.query(queryWithTimestamp, values);
+      return result.rows[0];
+    } catch (error) {
+      // If error is because updated_at column doesn't exist, try without it
+      if (error.code === '42703' && error.message.includes('updated_at')) {
+        console.log('updated_at column not found, updating without timestamp...');
+        const queryWithoutTimestamp = `
+          UPDATE news_articles
+          SET ${fields.join(', ')}
+          WHERE id = $${paramCount}
+          RETURNING *;
+        `;
+        const result = await db.query(queryWithoutTimestamp, values);
+        return result.rows[0];
+      }
+      // Otherwise rethrow the error
+      throw error;
+    }
   }
 
   /**
