@@ -121,9 +121,11 @@ backend/.env
 frontend/.env
 
 # Database backups and dumps
-*.sql
 *.dump
 *.backup
+*.backup.sql
+# Allow schema and migration SQL files in database directory
+!database/*.sql
 
 # Uploads and temporary files
 uploads/
