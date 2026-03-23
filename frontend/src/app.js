@@ -2,6 +2,7 @@ import { ApiService } from './services/api.js';
 import { StateManager } from './services/state.js';
 import { Router } from './services/router.js';
 import { UI } from './ui/ui.js';
+import { languageService } from './services/language.js';
 
 /**
  * Main application class
@@ -204,7 +205,8 @@ export class App {
             const articles = await this.api.getUserArticles(
                 this.currentUser.id,
                 this.currentUser.experiment_group,
-                this.currentUser.g4_subgroup
+                this.currentUser.g4_subgroup,
+                languageService.getCurrentLanguage()
             );
             console.log('App: Received articles:', articles ? articles.length : 0, 'articles');
 

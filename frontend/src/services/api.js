@@ -118,13 +118,16 @@ export class ApiService {
     /**
      * Get news articles for a user
      */
-    async getUserArticles(userId, experimentGroup, g4Subgroup = null) {
+    async getUserArticles(userId, experimentGroup, g4Subgroup = null, language = 'en') {
         let url = `/news/user/${userId}`;
         const params = new URLSearchParams({ experimentGroup });
 
         if (g4Subgroup) {
             params.append('g4Subgroup', g4Subgroup);
         }
+
+        // Add language parameter
+        params.append('language', language);
 
         url += `?${params.toString()}`;
         return this.request(url).then(data => data.articles);

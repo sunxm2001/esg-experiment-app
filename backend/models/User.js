@@ -23,7 +23,14 @@ class User {
       education,
       investment_years,
       risk_preference_score,
-      esg_preference_pre
+      esg_preference_pre,
+      // Device information (optional, with defaults)
+      device_type = 'desktop',
+      device_platform = 'unknown',
+      user_agent = '',
+      screen_width = null,
+      screen_height = null,
+      language_preference = 'en'
     } = userData;
 
     // Generate balanced random experiment group assignment
@@ -33,8 +40,10 @@ class User {
       INSERT INTO users (
         email, age, gender, education, investment_years,
         risk_preference_score, esg_preference_pre,
-        experiment_group, g4_subgroup
-      ) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9)
+        experiment_group, g4_subgroup,
+        device_type, device_platform, user_agent,
+        screen_width, screen_height, language_preference
+      ) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15)
       RETURNING *;
     `;
 
@@ -47,7 +56,13 @@ class User {
       risk_preference_score,
       esg_preference_pre,
       experimentGroup,
-      g4Subgroup
+      g4Subgroup,
+      device_type,
+      device_platform,
+      user_agent,
+      screen_width,
+      screen_height,
+      language_preference
     ];
 
     try {

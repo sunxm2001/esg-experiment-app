@@ -208,6 +208,14 @@ export class PredictionView {
                 if (existingPrediction) {
                     this.predictionData = existingPrediction;
                     this.updateFormFromData();
+                } else {
+                    // Reset prediction data for new article
+                    this.predictionData = {
+                        future_stock_price_rating: null,
+                        future_profitability_rating: null,
+                        capital_allocation_percentage: 50 // Default 50%
+                    };
+                    this.updateFormFromData();
                 }
             } else {
                 // No more articles to predict
@@ -261,13 +269,21 @@ export class PredictionView {
      * Update form with existing data
      */
     updateFormFromData() {
-        // Update stock price rating
+        // Clear all stock price rating radio buttons
+        const stockInputs = document.querySelectorAll('input[name="future_stock_price_rating"]');
+        stockInputs.forEach(input => input.checked = false);
+
+        // Clear all profitability rating radio buttons
+        const profitInputs = document.querySelectorAll('input[name="future_profitability_rating"]');
+        profitInputs.forEach(input => input.checked = false);
+
+        // Update stock price rating if value exists
         if (this.predictionData.future_stock_price_rating) {
             const stockInput = document.getElementById(`stock-${this.predictionData.future_stock_price_rating}`);
             if (stockInput) stockInput.checked = true;
         }
 
-        // Update profitability rating
+        // Update profitability rating if value exists
         if (this.predictionData.future_profitability_rating) {
             const profitInput = document.getElementById(`profit-${this.predictionData.future_profitability_rating}`);
             if (profitInput) profitInput.checked = true;

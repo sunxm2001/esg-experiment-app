@@ -161,25 +161,25 @@ export class PosttestView {
                             <div class="form-group">
                                 <label class="form-label" for="recalled_topic">${languageService.t('posttest.recall_topic_label')}</label>
                                 <select id="recalled_topic" class="form-select">
-                                    <option value="">Select topic</option>
-                                    <option value="esg" ${this.evaluationData.recalled_news_topic === 'esg' ? 'selected' : ''}>ESG (Environmental, Social, Governance)</option>
-                                    <option value="financial" ${this.evaluationData.recalled_news_topic === 'financial' ? 'selected' : ''}>Financial Performance</option>
-                                    <option value="esg_financial" ${this.evaluationData.recalled_news_topic === 'esg_financial' ? 'selected' : ''}>Both ESG and Financial</option>
-                                    <option value="neutral" ${this.evaluationData.recalled_news_topic === 'neutral' ? 'selected' : ''}>Neutral/Business News</option>
-                                    <option value="corporate_culture" ${this.evaluationData.recalled_news_topic === 'corporate_culture' ? 'selected' : ''}>Corporate Culture/Other</option>
-                                    <option value="not_sure" ${this.evaluationData.recalled_news_topic === 'not_sure' ? 'selected' : ''}>Not Sure/Don't Remember</option>
+                                    <option value="">${languageService.t('posttest.recall_topic_label')}</option>
+                                    <option value="esg" ${this.evaluationData.recalled_news_topic === 'esg' ? 'selected' : ''}>${languageService.t('posttest.recall_topic_esg')}</option>
+                                    <option value="financial" ${this.evaluationData.recalled_news_topic === 'financial' ? 'selected' : ''}>${languageService.t('posttest.recall_topic_financial')}</option>
+                                    <option value="esg_financial" ${this.evaluationData.recalled_news_topic === 'esg_financial' ? 'selected' : ''}>${languageService.t('posttest.recall_topic_esg_financial')}</option>
+                                    <option value="neutral" ${this.evaluationData.recalled_news_topic === 'neutral' ? 'selected' : ''}>${languageService.t('posttest.recall_topic_neutral')}</option>
+                                    <option value="corporate_culture" ${this.evaluationData.recalled_news_topic === 'corporate_culture' ? 'selected' : ''}>${languageService.t('posttest.recall_topic_corporate_culture')}</option>
+                                    <option value="not_sure" ${this.evaluationData.recalled_news_topic === 'not_sure' ? 'selected' : ''}>${languageService.t('posttest.recall_topic_not_sure')}</option>
                                 </select>
                             </div>
 
                             <div class="form-group">
                                 <label class="form-label" for="recalled_tone">${languageService.t('posttest.recall_tone_label')}</label>
                                 <select id="recalled_tone" class="form-select">
-                                    <option value="">Select tone</option>
-                                    <option value="positive" ${this.evaluationData.recalled_news_tone === 'positive' ? 'selected' : ''}>Positive/Optimistic</option>
-                                    <option value="neutral" ${this.evaluationData.recalled_news_tone === 'neutral' ? 'selected' : ''}>Neutral/Balanced</option>
-                                    <option value="negative" ${this.evaluationData.recalled_news_tone === 'negative' ? 'selected' : ''}>Negative/Pessimistic</option>
-                                    <option value="mixed" ${this.evaluationData.recalled_news_tone === 'mixed' ? 'selected' : ''}>Mixed/Varied</option>
-                                    <option value="not_sure" ${this.evaluationData.recalled_news_tone === 'not_sure' ? 'selected' : ''}>Not Sure/Don't Remember</option>
+                                    <option value="">${languageService.t('posttest.recall_tone_label')}</option>
+                                    <option value="positive" ${this.evaluationData.recalled_news_tone === 'positive' ? 'selected' : ''}>${languageService.t('posttest.recall_tone_positive')}</option>
+                                    <option value="neutral" ${this.evaluationData.recalled_news_tone === 'neutral' ? 'selected' : ''}>${languageService.t('posttest.recall_tone_neutral')}</option>
+                                    <option value="negative" ${this.evaluationData.recalled_news_tone === 'negative' ? 'selected' : ''}>${languageService.t('posttest.recall_tone_negative')}</option>
+                                    <option value="mixed" ${this.evaluationData.recalled_news_tone === 'mixed' ? 'selected' : ''}>${languageService.t('posttest.recall_tone_mixed')}</option>
+                                    <option value="not_sure" ${this.evaluationData.recalled_news_tone === 'not_sure' ? 'selected' : ''}>${languageService.t('posttest.recall_tone_not_sure')}</option>
                                 </select>
                             </div>
 
@@ -383,25 +383,25 @@ export class PosttestView {
 
             if (!isValid) {
                 const fieldNames = {
-                    'esg_financial_link_rating': 'ESG-Financial Link rating',
-                    'positive_affect_score': 'Positive emotions rating',
-                    'negative_affect_score': 'Negative emotions rating',
-                    'overall_credibility_rating': 'Overall credibility rating',
-                    'risk_preference_post': 'Post-experiment risk preference',
-                    'esg_preference_post': 'Post-experiment ESG preference',
-                    'attention_check_1': 'Attention check question 1',
-                    'attention_check_2': 'Attention check question 2'
+                    'esg_financial_link_rating': languageService.t('posttest.validation_field_esg_financial_link_rating'),
+                    'positive_affect_score': languageService.t('posttest.validation_field_positive_affect_score'),
+                    'negative_affect_score': languageService.t('posttest.validation_field_negative_affect_score'),
+                    'overall_credibility_rating': languageService.t('posttest.validation_field_overall_credibility_rating'),
+                    'risk_preference_post': languageService.t('posttest.validation_field_risk_preference_post'),
+                    'esg_preference_post': languageService.t('posttest.validation_field_esg_preference_post'),
+                    'attention_check_1': languageService.t('posttest.validation_field_attention_check_1'),
+                    'attention_check_2': languageService.t('posttest.validation_field_attention_check_2')
                 };
 
                 const missingList = missingFields.map(f => fieldNames[f] || f).join(', ');
-                this.ui.showAlert('error', 'Validation Error',
-                    `Please complete the following required fields: ${missingList}`);
+                const errorMessage = languageService.t('posttest.validation_error_message').replace('{fields}', missingList);
+                this.ui.showAlert('error', languageService.t('posttest.validation_error_title'), errorMessage);
                 return;
             }
 
             // Disable submit button
             submitBtn.disabled = true;
-            submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Processing...';
+            submitBtn.innerHTML = `<i class="fas fa-spinner fa-spin"></i> ${languageService.t('posttest.processing')}`;
 
             try {
                 // Collect form data
@@ -433,8 +433,8 @@ export class PosttestView {
                 const result = await this.app.submitPostEvaluation(evaluationData);
 
                 if (result.success) {
-                    this.ui.showAlert('success', 'Evaluation Complete',
-                        'Thank you for completing the experiment! Processing your results...');
+                    this.ui.showAlert('success', languageService.t('posttest.evaluation_complete_title'),
+                        languageService.t('posttest.evaluation_complete_message'));
 
                     // Navigate to completion view after delay
                     setTimeout(() => {

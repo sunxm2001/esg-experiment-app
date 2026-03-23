@@ -15,7 +15,7 @@ const newsController = {
 
       // In production, verify user exists and get their group from database
       // For now, we'll assume user group is passed in query or from authentication
-      const { experimentGroup, g4Subgroup } = req.query;
+      const { experimentGroup, g4Subgroup, language = 'en' } = req.query;
 
       if (!experimentGroup) {
         return res.status(400).json({
@@ -40,17 +40,29 @@ const newsController = {
       const articles = await NewsArticle.getArticlesForGroup(experimentGroup, g4Subgroup);
 
       // Format response with article metadata including full content
-      const formattedArticles = articles.map(article => ({
-        id: article.id,
-        title: article.title,
-        article_type: article.article_type,
-        bundle_type: article.bundle_type,
-        time_limit_seconds: article.time_limit_seconds,
-        is_filler: article.is_filler,
-        display_order: article.display_order,
-        // Include full content for immediate display
-        content: article.content
-      }));
+      const formattedArticles = articles.map(article => {
+        // Select title and content based on language preference
+        const useChinese = language === 'zh';
+        const title = useChinese && article.title_zh ? article.title_zh : article.title;
+        const content = useChinese && article.content_zh ? article.content_zh : article.content;
+
+        return {
+          id: article.id,
+          title,
+          title_en: article.title, // Keep original for reference
+          title_zh: article.title_zh,
+          article_type: article.article_type,
+          bundle_type: article.bundle_type,
+          time_limit_seconds: article.time_limit_seconds,
+          is_filler: article.is_filler,
+          display_order: article.display_order,
+          // Include full content for immediate display
+          content,
+          content_en: article.content, // Keep original for reference
+          content_zh: article.content_zh,
+          has_chinese_translation: !!article.title_zh && !!article.content_zh
+        };
+      });
 
       res.json({
         experiment_group: experimentGroup,
@@ -83,15 +95,24 @@ const newsController = {
         await ReadingSession.startSession(userId, articleId);
       }
 
+      // Get language preference from query parameter or default to English
+      const { language = 'en' } = req.query;
+      const useChinese = language === 'zh';
+
       res.json({
         article: {
           id: article.id,
-          title: article.title,
-          content: article.content,
+          title: useChinese && article.title_zh ? article.title_zh : article.title,
+          title_en: article.title,
+          title_zh: article.title_zh,
+          content: useChinese && article.content_zh ? article.content_zh : article.content,
+          content_en: article.content,
+          content_zh: article.content_zh,
           article_type: article.article_type,
           bundle_type: article.bundle_type,
           time_limit_seconds: article.time_limit_seconds,
-          is_filler: article.is_filler
+          is_filler: article.is_filler,
+          has_chinese_translation: !!article.title_zh && !!article.content_zh
         }
       });
     } catch (error) {

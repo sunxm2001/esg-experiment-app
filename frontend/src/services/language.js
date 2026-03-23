@@ -279,6 +279,35 @@ export class LanguageService {
             'posttest.submission_error': 'Submission Error',
             'posttest.submission_error_message': 'An unexpected error occurred. Please try again.',
 
+            // News recall topic options
+            'posttest.recall_topic_esg': 'ESG (Environmental, Social, Governance)',
+            'posttest.recall_topic_financial': 'Financial Performance',
+            'posttest.recall_topic_esg_financial': 'Both ESG and Financial',
+            'posttest.recall_topic_neutral': 'Neutral/Business News',
+            'posttest.recall_topic_corporate_culture': 'Corporate Culture/Other',
+            'posttest.recall_topic_not_sure': 'Not Sure/Don\'t Remember',
+
+            // News recall tone options
+            'posttest.recall_tone_positive': 'Positive/Optimistic',
+            'posttest.recall_tone_neutral': 'Neutral/Balanced',
+            'posttest.recall_tone_negative': 'Negative/Pessimistic',
+            'posttest.recall_tone_mixed': 'Mixed/Varied',
+            'posttest.recall_tone_not_sure': 'Not Sure/Don\'t Remember',
+
+            // Validation field names
+            'posttest.validation_field_esg_financial_link_rating': 'ESG-Financial Link rating',
+            'posttest.validation_field_positive_affect_score': 'Positive emotions rating',
+            'posttest.validation_field_negative_affect_score': 'Negative emotions rating',
+            'posttest.validation_field_overall_credibility_rating': 'Overall credibility rating',
+            'posttest.validation_field_risk_preference_post': 'Post-experiment risk preference',
+            'posttest.validation_field_esg_preference_post': 'Post-experiment ESG preference',
+            'posttest.validation_field_attention_check_1': 'Attention check question 1',
+            'posttest.validation_field_attention_check_2': 'Attention check question 2',
+            'posttest.validation_error_title': 'Validation Error',
+            'posttest.validation_error_message': 'Please complete the following required fields: {fields}',
+            'posttest.evaluation_complete_title': 'Evaluation Complete',
+            'posttest.evaluation_complete_message': 'Thank you for completing the experiment! Processing your results...',
+
             // Completion view (incentive calculation)
             'completion.title': 'Experiment Complete!',
             'completion.subtitle': 'Thank you for participating in our research study.',
@@ -634,6 +663,35 @@ export class LanguageService {
             'posttest.submission_failed': '提交失败',
             'posttest.submission_error': '提交错误',
             'posttest.submission_error_message': '发生意外错误，请重试。',
+
+            // 新闻回忆主题选项
+            'posttest.recall_topic_esg': 'ESG（环境、社会、治理）',
+            'posttest.recall_topic_financial': '财务绩效',
+            'posttest.recall_topic_esg_financial': 'ESG和财务两者',
+            'posttest.recall_topic_neutral': '中性/商业新闻',
+            'posttest.recall_topic_corporate_culture': '企业文化/其他',
+            'posttest.recall_topic_not_sure': '不确定/不记得',
+
+            // 新闻回忆基调选项
+            'posttest.recall_tone_positive': '积极/乐观',
+            'posttest.recall_tone_neutral': '中性/平衡',
+            'posttest.recall_tone_negative': '消极/悲观',
+            'posttest.recall_tone_mixed': '混合/多样',
+            'posttest.recall_tone_not_sure': '不确定/不记得',
+
+            // 验证字段名称
+            'posttest.validation_field_esg_financial_link_rating': 'ESG-财务链接评分',
+            'posttest.validation_field_positive_affect_score': '积极情绪评分',
+            'posttest.validation_field_negative_affect_score': '消极情绪评分',
+            'posttest.validation_field_overall_credibility_rating': '总体可信度评分',
+            'posttest.validation_field_risk_preference_post': '实验后风险偏好',
+            'posttest.validation_field_esg_preference_post': '实验后ESG偏好',
+            'posttest.validation_field_attention_check_1': '注意力检查问题1',
+            'posttest.validation_field_attention_check_2': '注意力检查问题2',
+            'posttest.validation_error_title': '验证错误',
+            'posttest.validation_error_message': '请完成以下必填字段：{fields}',
+            'posttest.evaluation_complete_title': '评估完成',
+            'posttest.evaluation_complete_message': '感谢您完成实验！正在处理您的结果...',
 
             // Completion view (incentive calculation)
             'completion.title': '实验完成！',

@@ -2,6 +2,7 @@
  * Registration view (pre-experiment data collection)
  */
 import { languageService } from '../../services/language.js';
+import { DeviceDetector } from '../../services/deviceDetector.js';
 
 export class RegistrationView {
     constructor(ui) {
@@ -283,6 +284,15 @@ export class RegistrationView {
                     risk_preference_score: parseFloat(riskSelected.value),
                     esg_preference_pre: parseFloat(esgSelected.value)
                 };
+
+                // Add device information
+                const deviceInfo = DeviceDetector.getSimplifiedDeviceInfo();
+                formData.device_type = deviceInfo.device_type;
+                formData.device_platform = deviceInfo.device_platform;
+                formData.user_agent = deviceInfo.user_agent;
+                formData.screen_width = deviceInfo.screen_width;
+                formData.screen_height = deviceInfo.screen_height;
+                formData.language_preference = deviceInfo.language;
 
                 // Submit registration
                 const result = await this.app.registerUser(formData);

@@ -17,7 +17,14 @@ const userController = {
         education,
         investment_years,
         risk_preference_score,
-        esg_preference_pre
+        esg_preference_pre,
+        // Device information fields
+        device_type,
+        device_platform,
+        user_agent,
+        screen_width,
+        screen_height,
+        language_preference
       } = req.body;
 
       // Validate required fields
@@ -43,7 +50,14 @@ const userController = {
         education,
         investment_years: parseInt(investment_years),
         risk_preference_score: parseFloat(risk_preference_score),
-        esg_preference_pre: parseFloat(esg_preference_pre)
+        esg_preference_pre: parseFloat(esg_preference_pre),
+        // Device information (optional)
+        device_type,
+        device_platform,
+        user_agent,
+        screen_width: screen_width ? parseInt(screen_width) : null,
+        screen_height: screen_height ? parseInt(screen_height) : null,
+        language_preference
       });
 
       // Mark pre-test as completed and get updated user

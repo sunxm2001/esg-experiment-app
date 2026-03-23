@@ -13,6 +13,8 @@ class NewsArticle {
     const {
       title,
       content,
+      title_zh,
+      content_zh,
       article_type,
       bundle_type,
       target_group,
@@ -25,16 +27,18 @@ class NewsArticle {
 
     const query = `
       INSERT INTO news_articles (
-        title, content, article_type, bundle_type, target_group,
+        title, content, title_zh, content_zh, article_type, bundle_type, target_group,
         display_order, time_limit_seconds, is_filler,
         true_future_stock_price_rating, true_future_profitability_rating
-      ) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10)
+      ) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12)
       RETURNING *;
     `;
 
     const values = [
       title,
       content,
+      title_zh || null,
+      content_zh || null,
       article_type,
       bundle_type,
       target_group,
