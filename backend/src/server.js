@@ -127,6 +127,24 @@ const frontendPublicPath = path.resolve(__dirname, '../../frontend/public');
 console.log(`Static files path: ${frontendPublicPath}`);
 console.log(`Directory exists: ${fs.existsSync(frontendPublicPath)}`);
 
+// Log list of files in frontend directory for debugging
+if (fs.existsSync(frontendPublicPath)) {
+  try {
+    const files = fs.readdirSync(frontendPublicPath);
+    console.log(`Frontend public files count: ${files.length}`);
+    console.log(`Sample files: ${files.slice(0, 5).join(', ')}...`);
+
+    // Check for important files
+    const importantFiles = ['index.html', 'styles.css'];
+    importantFiles.forEach(file => {
+      const filePath = path.join(frontendPublicPath, file);
+      console.log(`${file} exists: ${fs.existsSync(filePath)}`);
+    });
+  } catch (err) {
+    console.log(`Error reading frontend directory: ${err.message}`);
+  }
+}
+
 app.use(express.static(frontendPublicPath, {
   maxAge: process.env.NODE_ENV === 'production' ? '1d' : '0', // Cache in production
   etag: true,
@@ -135,7 +153,10 @@ app.use(express.static(frontendPublicPath, {
     // Add security headers for static files
     if (filePath.endsWith('.html')) {
       res.setHeader('Cache-Control', 'no-cache, no-store, must-revalidate');
+      res.setHeader('Last-Modified', new Date().toUTCString());
     }
+    // Add version header for debugging
+    res.setHeader('X-App-Version', '1.1.0-device-bilingual');
   },
   fallthrough: true  // Allow requests to fall through if file not found
 }));
