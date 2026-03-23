@@ -82,7 +82,8 @@ CREATE TABLE news_articles (
   true_future_profitability_rating INTEGER CHECK (true_future_profitability_rating >= 1 AND true_future_profitability_rating <= 7),
 
   -- Additional metadata
-  created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
+  created_at TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP,
+  updated_at TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP
 );
 
 -- User reading sessions: tracks attention/time spent on each article

@@ -175,7 +175,7 @@ async function fixChineseTranslations() {
       // Update the article with Chinese translation
       const updateQuery = `
         UPDATE news_articles
-        SET title_zh = $1, content_zh = $2, updated_at = CURRENT_TIMESTAMP
+        SET title_zh = $1, content_zh = $2
         WHERE title = $3
         RETURNING id, title, title_zh
       `;
