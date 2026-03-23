@@ -74,7 +74,13 @@ app.use('/api/', rateLimitMiddleware);
 
 // Basic route for health check
 app.get('/api/health', (req, res) => {
-  res.json({ status: 'OK', message: 'ESG Experiment Backend is running' });
+  res.json({
+    status: 'OK',
+    message: 'ESG Experiment Backend is running',
+    version: '1.1.0-device-bilingual',
+    timestamp: new Date().toISOString(),
+    features: ['device-detection', 'bilingual-support', 'quality-control']
+  });
 });
 
 // Detailed health check with system status
