@@ -308,14 +308,14 @@ const server = app.listen(port, async () => {
   console.log(`Health check: http://localhost:${port}/api/health`);
   console.log(`Detailed health: http://localhost:${port}/api/health/detailed`);
 
-  // Run Chinese translations fix on startup (safe to run on every startup as it only updates empty fields)
+  // Run database migrations and Chinese translations fix on startup
   try {
-    console.log('Checking and fixing Chinese translations...');
-    const { fixChineseTranslations } = require('./fixChineseTranslations');
-    const updatedCount = await fixChineseTranslations();
-    console.log(`Chinese translations fix completed. Updated ${updatedCount} articles.`);
+    console.log('Running database migrations and Chinese translations fix...');
+    const { runFullMigrationAndFix } = require('./runMigrations');
+    const result = await runFullMigrationAndFix();
+    console.log('Database initialization completed:', JSON.stringify(result, null, 2));
   } catch (error) {
-    console.error('Failed to fix Chinese translations:', error);
+    console.error('Failed to run database migrations and Chinese translations fix:', error);
     // Don't crash the server, just log the error
   }
 });
