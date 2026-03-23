@@ -107,6 +107,22 @@ async function runMigration() {
 
     console.log('Migration verification:', finalCheck);
 
+    // Ensure updated_at column exists in news_articles table
+    const needsUpdatedAt = !(await columnExists('news_articles', 'updated_at'));
+    if (needsUpdatedAt) {
+      console.log('Adding missing updated_at column to news_articles table...');
+      try {
+        await db.query(`
+          ALTER TABLE news_articles
+          ADD COLUMN IF NOT EXISTS updated_at TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP
+        `);
+        console.log('Added updated_at column to news_articles table.');
+      } catch (error) {
+        console.error('Failed to add updated_at column:', error.message);
+        // Don't fail the whole migration for this
+      }
+    }
+
     return {
       migrated: true,
       message: `Migration completed. Columns created: ${JSON.stringify(finalCheck)}`,
