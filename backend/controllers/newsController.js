@@ -210,7 +210,27 @@ const newsController = {
   async getAllArticles(req, res, next) {
     try {
       const articles = await NewsArticle.findAll();
-      res.json({ articles });
+      // Include all fields for debugging
+      const articlesWithAllFields = articles.map(article => ({
+        id: article.id,
+        title: article.title,
+        content: article.content,
+        title_zh: article.title_zh,
+        content_zh: article.content_zh,
+        article_type: article.article_type,
+        bundle_type: article.bundle_type,
+        target_group: article.target_group,
+        display_order: article.display_order,
+        time_limit_seconds: article.time_limit_seconds,
+        is_filler: article.is_filler,
+        true_future_stock_price_rating: article.true_future_stock_price_rating,
+        true_future_profitability_rating: article.true_future_profitability_rating,
+        created_at: article.created_at,
+        // Debug info
+        has_title_zh: !!article.title_zh,
+        has_content_zh: !!article.content_zh
+      }));
+      res.json({ articles: articlesWithAllFields });
     } catch (error) {
       next(error);
     }
