@@ -308,17 +308,15 @@ const server = app.listen(port, async () => {
   console.log(`Health check: http://localhost:${port}/api/health`);
   console.log(`Detailed health: http://localhost:${port}/api/health/detailed`);
 
-  // Run Chinese translations fix on startup (only in development or if flag is set)
-  if (process.env.FIX_CHINESE_TRANSLATIONS === 'true' || process.env.NODE_ENV === 'development') {
-    try {
-      console.log('Checking and fixing Chinese translations...');
-      const { fixChineseTranslations } = require('./fixChineseTranslations');
-      const updatedCount = await fixChineseTranslations();
-      console.log(`Chinese translations fix completed. Updated ${updatedCount} articles.`);
-    } catch (error) {
-      console.error('Failed to fix Chinese translations:', error);
-      // Don't crash the server, just log the error
-    }
+  // Run Chinese translations fix on startup (safe to run on every startup as it only updates empty fields)
+  try {
+    console.log('Checking and fixing Chinese translations...');
+    const { fixChineseTranslations } = require('./fixChineseTranslations');
+    const updatedCount = await fixChineseTranslations();
+    console.log(`Chinese translations fix completed. Updated ${updatedCount} articles.`);
+  } catch (error) {
+    console.error('Failed to fix Chinese translations:', error);
+    // Don't crash the server, just log the error
   }
 });
 
