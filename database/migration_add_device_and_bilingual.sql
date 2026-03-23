@@ -11,10 +11,11 @@ ADD COLUMN IF NOT EXISTS screen_width INTEGER,
 ADD COLUMN IF NOT EXISTS screen_height INTEGER,
 ADD COLUMN IF NOT EXISTS language_preference VARCHAR(10) DEFAULT 'en';
 
--- 2. Add Chinese translation columns to news_articles table
+-- 2. Add Chinese translation columns and updated_at field to news_articles table
 ALTER TABLE news_articles
 ADD COLUMN IF NOT EXISTS title_zh VARCHAR(500),
-ADD COLUMN IF NOT EXISTS content_zh TEXT;
+ADD COLUMN IF NOT EXISTS content_zh TEXT,
+ADD COLUMN IF NOT EXISTS updated_at TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP;
 
 -- 3. Update existing records with default values if needed
 -- Users: set language_preference based on existing data or default

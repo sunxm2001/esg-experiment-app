@@ -183,8 +183,8 @@ CREATE TABLE performance_tracking (
   bonus_calculated DECIMAL(10,2),
   bonus_awarded BOOLEAN DEFAULT FALSE,
 
-  created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
-  updated_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
+  created_at TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP,
+  updated_at TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP
 );
 
 -- Audit log for important events
